@@ -1,0 +1,98 @@
+{
+  "package_version": "0.4.0",
+  "bridge_binary_version": "0.4.0",
+  "discovery_binary_version": "0.1.1",
+  "packaging_only_release": false,
+  "tested_at": "2026-11-12T02:46:41.326734+08:00",
+  "bridge_sha256": "48259a869668b170d74ea856f3610f2baada24c0dc480da53d4237bcaaa5087f",
+  "discovery_sha256": "90b12494caa67a41d7f155e65ea4900885d0bcd2bb44f5b35832ad22f1405d79",
+  "actual_solidworks_instance": {
+    "instance_id": "solidworks-pid-27312",
+    "pid": 27312,
+    "solidworks_revision": "33.1.2"
+  },
+  "api_tests": {
+    "passed": 29,
+    "failed": 0,
+    "cases": {
+      "tool_discovery": "passed",
+      "official_metadata_catalog": "passed",
+      "official_ref_out_signature": "passed",
+      "official_enum_values": "passed",
+      "method_search": "passed",
+      "catalog_pagination": "passed",
+      "raw_buffer_limit_reported": "passed",
+      "negative_offset": "passed",
+      "unknown_interface": "passed",
+      "missing_search_query": "passed",
+      "unknown_catalog_field": "passed",
+      "read_only_api_call_rejected": "passed",
+      "actual_solidworks_connection": "passed",
+      "api_batch_validate": "passed",
+      "actual_com_objects_and_typed_array": "passed",
+      "actual_property_set_and_read": "passed",
+      "object_reference_across_batches": "passed",
+      "actual_api_array_pagination": "passed",
+      "idempotent_request_replay": "passed",
+      "changed_request_id_conflict": "passed",
+      "actual_ref_out_values": "passed",
+      "invalid_enum_rejected_before_call": "passed",
+      "arbitrary_managed_type_rejected": "passed",
+      "fractional_int_rejected": "passed",
+      "forward_reference_rejected": "passed",
+      "raw_buffer_invocation_rejected": "passed",
+      "transport_object_release": "passed",
+      "released_object_rejected": "passed",
+      "no_automatic_success_claim": "passed"
+    }
+  },
+  "protocol_baseline": {
+    "mcp_initialize": "pass",
+    "tool_discovery": "pass",
+    "ping": "pass",
+    "cad_connection": "connected",
+    "document_enumeration": "pass",
+    "document_inspection": "not_run_no_open_documents",
+    "stale_session_rejected": "pass",
+    "read_only_write_rejected": "pass",
+    "unknown_fields_rejected": "pass",
+    "unknown_tool_rejected": "pass"
+  },
+  "contract_checks": {
+    "status": "passed",
+    "responses_checked": 40,
+    "powershell_files_checked": 10
+  },
+  "additional_official_interop_metadata_loading": "passed_for_installed_swpublished_ISwAddin",
+  "config_toml_and_python_syntax": "passed",
+  "catalog": {
+    "assemblies": [
+      {
+        "name": "SolidWorks.Interop.sldworks",
+        "version": "34.0.0.5070"
+      },
+      {
+        "name": "SolidWorks.Interop.swconst",
+        "version": "34.0.0.5070"
+      }
+    ],
+    "interface_count": 1030,
+    "enum_count": 978,
+    "method_count": 16686,
+    "transport_candidate_count": 15293
+  },
+  "geometry_created_in_this_test": false,
+  "not_validated": [
+    "every_official_method",
+    "all_products_and_addin_licenses",
+    "every_runtime_version",
+    "cross_computer",
+    "native_pointers_and_callbacks",
+    "in_process_addin_execution",
+    "motion_study",
+    "gearbox_geometry_and_motion_separate_task",
+    "dedicated_parameter_export_and_assembly_actions_not_retested_in_0_4_0"
+  ],
+  "global_codex_configuration_modified": false,
+  "original_0_3_1_package_modified": false
+}

@@ -1,0 +1,1977 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sw-codex-toolkit:01a1cb2e:0.4.0:bridge",
+  "title": "Implemented SolidWorks bridge contract",
+  "description": "Attach-only MCP bridge with versioned CAD jobs and metadata-driven official managed COM API batches.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/ToolCall"
+    },
+    {
+      "$ref": "#/$defs/ToolResult"
+    }
+  ],
+  "$defs": {
+    "ExpectedDocument": {
+      "type": "object",
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "document_id",
+        "revision"
+      ],
+      "additionalProperties": false
+    },
+    "Document": {
+      "type": "object",
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z]:[\\\\/].+"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "document_type": {
+          "type": "string",
+          "enum": [
+            "part",
+            "assembly",
+            "drawing"
+          ]
+        },
+        "configuration": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dirty": {
+          "type": "boolean"
+        },
+        "read_only": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document_id",
+        "path",
+        "document_type",
+        "configuration",
+        "revision",
+        "dirty",
+        "read_only"
+      ],
+      "additionalProperties": false
+    },
+    "ParameterChange": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "reference_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value_mm": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "reference_id",
+            "value_mm"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "reference_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value_deg": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "reference_id",
+            "value_deg"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "SetParameters": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "set_parameters"
+        },
+        "document_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ParameterChange"
+          },
+          "minItems": 1,
+          "maxItems": 32
+        }
+      },
+      "required": [
+        "type",
+        "document_id",
+        "parameters"
+      ],
+      "additionalProperties": false
+    },
+    "ExportDocument": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "export_document"
+        },
+        "document_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "parasolid",
+            "step",
+            "stl",
+            "png"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "document_id",
+        "format"
+      ],
+      "additionalProperties": false
+    },
+    "Action": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/SetParameters"
+        },
+        {
+          "$ref": "#/$defs/ExportDocument"
+        },
+        {
+          "$ref": "#/$defs/AssembleDemo"
+        },
+        {
+          "$ref": "#/$defs/InsertComponentWithMates"
+        },
+        {
+          "$ref": "#/$defs/ActivateDocument"
+        },
+        {
+          "$ref": "#/$defs/ApiBatch"
+        }
+      ]
+    },
+    "StatusInput": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "InspectInput": {
+      "type": "object",
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "document_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "summary",
+              "geometry",
+              "parameters",
+              "references",
+              "mates",
+              "checks",
+              "snapshot"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "session_id",
+        "document_id"
+      ],
+      "additionalProperties": false
+    },
+    "SubmitInput": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "session_id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "expected_documents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedDocument"
+          },
+          "uniqueItems": true
+        },
+        "execution": {
+          "type": "string",
+          "enum": [
+            "validate",
+            "execute"
+          ]
+        },
+        "output_dir": {
+          "type": "string",
+          "pattern": "^[A-Za-z]:[\\\\/].+"
+        },
+        "action": {
+          "$ref": "#/$defs/Action"
+        }
+      },
+      "required": [
+        "schema_version",
+        "request_id",
+        "session_id",
+        "expected_documents",
+        "execution",
+        "output_dir",
+        "action"
+      ],
+      "additionalProperties": false
+    },
+    "JobInput": {
+      "type": "object",
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "job_id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "operation": {
+          "type": "string",
+          "enum": [
+            "get",
+            "cancel"
+          ]
+        }
+      },
+      "required": [
+        "session_id",
+        "job_id",
+        "operation"
+      ],
+      "additionalProperties": false
+    },
+    "ToolCall": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "const": "sw_status"
+            },
+            "arguments": {
+              "$ref": "#/$defs/StatusInput"
+            }
+          },
+          "required": [
+            "name",
+            "arguments"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "const": "sw_inspect"
+            },
+            "arguments": {
+              "$ref": "#/$defs/InspectInput"
+            }
+          },
+          "required": [
+            "name",
+            "arguments"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "const": "sw_submit"
+            },
+            "arguments": {
+              "$ref": "#/$defs/SubmitInput"
+            }
+          },
+          "required": [
+            "name",
+            "arguments"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "const": "sw_job"
+            },
+            "arguments": {
+              "$ref": "#/$defs/JobInput"
+            }
+          },
+          "required": [
+            "name",
+            "arguments"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "const": "sw_api_catalog"
+            },
+            "arguments": {
+              "$ref": "#/$defs/ApiCatalogInput"
+            }
+          },
+          "required": [
+            "name",
+            "arguments"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "const": "sw_api_object"
+            },
+            "arguments": {
+              "$ref": "#/$defs/ApiObjectInput"
+            }
+          },
+          "required": [
+            "name",
+            "arguments"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "VALIDATION_FAILED",
+            "UNSUPPORTED_ACTION",
+            "INSTANCE_AMBIGUOUS",
+            "SW_DISCONNECTED",
+            "SW_BUSY",
+            "DOC_NOT_FOUND",
+            "DOC_DIRTY",
+            "DOC_READONLY",
+            "DOC_REVISION_MISMATCH",
+            "SKETCH_ACTIVE",
+            "REFERENCE_AMBIGUOUS",
+            "API_FAILED",
+            "REBUILD_FAILED",
+            "MATE_FAILED",
+            "MOTION_VERIFICATION_FAILED",
+            "EXPORT_FAILED",
+            "QUEUE_FULL",
+            "REQUEST_ID_CONFLICT",
+            "PATH_NOT_ALLOWED",
+            "OUTCOME_UNKNOWN"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "step": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "api_method": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "api_status": {
+          "type": [
+            "string",
+            "integer",
+            "null"
+          ]
+        },
+        "hresult": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{8}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "recovery": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "step",
+        "api_method",
+        "api_status",
+        "hresult",
+        "retryable",
+        "recovery"
+      ],
+      "additionalProperties": false
+    },
+    "Instance": {
+      "type": "object",
+      "properties": {
+        "instance_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pid": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "solidworks_revision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "instance_id",
+        "pid",
+        "solidworks_revision"
+      ],
+      "additionalProperties": false
+    },
+    "Capabilities": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "set_parameters",
+              "export_document",
+              "assemble_demo",
+              "insert_component_with_mates",
+              "activate_document",
+              "api_batch"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "recipe_versions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true,
+          "maxItems": 0
+        },
+        "export_formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "parasolid",
+              "step",
+              "stl",
+              "png"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "native_motion_study": {
+          "const": false
+        },
+        "write_enabled": {
+          "type": "boolean"
+        },
+        "write_validation": {
+          "enum": [
+            "not_executed_on_shared_cad",
+            "see_package_validation_report"
+          ]
+        },
+        "api_catalog": {
+          "const": true
+        },
+        "api_invocation": {
+          "type": "boolean"
+        },
+        "api_invocation_mode": {
+          "const": "live_objects_raw_official_units_no_automatic_copy_or_rollback"
+        }
+      },
+      "required": [
+        "actions",
+        "recipe_versions",
+        "export_formats",
+        "native_motion_study",
+        "write_enabled",
+        "write_validation"
+      ],
+      "additionalProperties": false
+    },
+    "StatusData": {
+      "type": "object",
+      "properties": {
+        "connection": {
+          "type": "string",
+          "enum": [
+            "connected",
+            "disconnected",
+            "ambiguous"
+          ]
+        },
+        "instance": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Instance"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Instance"
+          }
+        },
+        "busy": {
+          "type": "boolean"
+        },
+        "documents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Document"
+          }
+        },
+        "capabilities": {
+          "$ref": "#/$defs/Capabilities"
+        },
+        "observed_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "busy_scope": {
+          "const": "bridge_queue_only"
+        },
+        "active_document_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "connection",
+        "instance",
+        "candidates",
+        "busy",
+        "documents",
+        "capabilities",
+        "observed_at",
+        "busy_scope"
+      ],
+      "additionalProperties": false
+    },
+    "Parameter": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "reference_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "role": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value_mm": {
+              "type": "number"
+            },
+            "writable": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "reference_id",
+            "role",
+            "value_mm",
+            "writable"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "reference_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "role": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value_deg": {
+              "type": "number"
+            },
+            "writable": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "reference_id",
+            "role",
+            "value_deg",
+            "writable"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Reference": {
+      "type": "object",
+      "properties": {
+        "reference_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entity_type": {
+          "type": "string",
+          "enum": [
+            "axis",
+            "plane",
+            "face",
+            "edge",
+            "dimension",
+            "feature",
+            "component",
+            "mate"
+          ]
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "unique",
+            "missing",
+            "ambiguous"
+          ]
+        }
+      },
+      "required": [
+        "reference_id",
+        "role",
+        "entity_type",
+        "resolution"
+      ],
+      "additionalProperties": false
+    },
+    "Geometry": {
+      "type": "object",
+      "properties": {
+        "solid_body_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "volume_mm3": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "bbox_mm": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 6,
+              "maxItems": 6
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frame": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "solid_body_count",
+        "volume_mm3",
+        "bbox_mm",
+        "frame"
+      ],
+      "additionalProperties": false
+    },
+    "Check": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "not_run",
+            "unavailable"
+          ]
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "details": {
+          "type": "string",
+          "minLength": 1
+        },
+        "measurements": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "number",
+              "string",
+              "boolean",
+              "null"
+            ]
+          }
+        }
+      },
+      "required": [
+        "code",
+        "state",
+        "method",
+        "details"
+      ],
+      "additionalProperties": false
+    },
+    "MateSummary": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "solved",
+            "suppressed",
+            "failed",
+            "not_checked"
+          ]
+        }
+      },
+      "required": [
+        "role",
+        "kind",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "InspectionData": {
+      "type": "object",
+      "properties": {
+        "document": {
+          "$ref": "#/$defs/Document"
+        },
+        "scopes_returned": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "geometry": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Geometry"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Parameter"
+          }
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Reference"
+          }
+        },
+        "mates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MateSummary"
+          }
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Check"
+          }
+        },
+        "details": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "snapshot": {
+              "$ref": "#/$defs/WindowSnapshot"
+            }
+          }
+        }
+      },
+      "required": [
+        "document",
+        "scopes_returned",
+        "geometry",
+        "parameters",
+        "references",
+        "mates",
+        "checks",
+        "details"
+      ],
+      "additionalProperties": false
+    },
+    "Artifact": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^[A-Za-z]:[\\\\/].+"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "sldprt",
+            "sldasm",
+            "x_t",
+            "step",
+            "stl",
+            "png",
+            "json"
+          ]
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "document_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verification": {
+          "$ref": "#/$defs/Check"
+        }
+      },
+      "required": [
+        "path",
+        "format",
+        "size_bytes",
+        "sha256",
+        "document_id",
+        "revision",
+        "verification"
+      ],
+      "additionalProperties": false
+    },
+    "MotionSample": {
+      "type": "object",
+      "properties": {
+        "target_angle_deg": {
+          "type": "number"
+        },
+        "measured_angle_deg": {
+          "type": "number"
+        },
+        "slider_x_mm": {
+          "type": "number"
+        },
+        "expected_slider_x_mm": {
+          "type": "number"
+        },
+        "closure_error_mm": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "target_angle_deg",
+        "measured_angle_deg",
+        "slider_x_mm",
+        "expected_slider_x_mm",
+        "closure_error_mm"
+      ],
+      "additionalProperties": false
+    },
+    "Changes": {
+      "type": "object",
+      "properties": {
+        "model_state": {
+          "type": "string",
+          "enum": [
+            "unchanged",
+            "modified",
+            "unknown"
+          ]
+        },
+        "publication": {
+          "type": "string",
+          "enum": [
+            "none",
+            "staged",
+            "published"
+          ]
+        },
+        "source_preserved": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "restoration": {
+          "type": "string",
+          "enum": [
+            "not_needed",
+            "succeeded",
+            "failed",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "model_state",
+        "publication",
+        "source_preserved",
+        "restoration"
+      ],
+      "additionalProperties": false
+    },
+    "JobData": {
+      "type": "object",
+      "properties": {
+        "job_id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancel_requested",
+            "cancelled",
+            "interrupted",
+            "outcome_unknown"
+          ]
+        },
+        "active_step": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "completed_steps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "observed_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "documents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Document"
+          }
+        },
+        "changes": {
+          "$ref": "#/$defs/Changes"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Check"
+          }
+        },
+        "motion_samples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MotionSample"
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Artifact"
+          }
+        },
+        "error": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "api_results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ApiStepResult"
+          }
+        }
+      },
+      "required": [
+        "job_id",
+        "request_id",
+        "state",
+        "active_step",
+        "completed_steps",
+        "observed_at",
+        "documents",
+        "changes",
+        "checks",
+        "motion_samples",
+        "artifacts",
+        "error"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "failed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "$ref": "#/$defs/Error"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "succeeded"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "type": "null"
+              },
+              "active_step": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ValidationData": {
+      "type": "object",
+      "properties": {
+        "valid": {
+          "const": true
+        },
+        "action_type": {
+          "type": "string",
+          "enum": [
+            "set_parameters",
+            "export_document",
+            "assemble_demo",
+            "insert_component_with_mates",
+            "activate_document",
+            "api_batch"
+          ]
+        },
+        "will_modify_documents": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "planned_files": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "valid",
+        "action_type",
+        "will_modify_documents",
+        "planned_files"
+      ],
+      "additionalProperties": false
+    },
+    "ToolResult": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "request_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "session_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "accepted",
+            "error"
+          ]
+        },
+        "data": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/StatusData"
+            },
+            {
+              "$ref": "#/$defs/InspectionData"
+            },
+            {
+              "$ref": "#/$defs/JobData"
+            },
+            {
+              "$ref": "#/$defs/ValidationData"
+            },
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ApiCatalogData"
+            },
+            {
+              "$ref": "#/$defs/ApiObjectData"
+            }
+          ]
+        },
+        "error": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "request_id",
+        "session_id",
+        "status",
+        "data",
+        "error"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "error"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "$ref": "#/$defs/Error"
+              },
+              "data": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "error": {
+                "type": "null"
+              },
+              "data": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "accepted"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "$ref": "#/$defs/JobData"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "AssembleDemo": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "assemble_demo"
+        },
+        "document_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "type",
+        "document_id"
+      ],
+      "additionalProperties": false
+    },
+    "InsertComponentWithMates": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "insert_component_with_mates"
+        },
+        "document_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_component_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hole_reference_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seat_reference_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_part_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_configuration": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "type",
+        "document_id",
+        "base_component_id",
+        "hole_reference_id",
+        "seat_reference_id",
+        "source_part_path"
+      ],
+      "additionalProperties": false
+    },
+    "ActivateDocument": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "activate_document"
+        },
+        "document_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "type",
+        "document_id"
+      ],
+      "additionalProperties": false
+    },
+    "WindowSnapshot": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "format": {
+          "const": "png"
+        },
+        "width_px": {
+          "type": "integer",
+          "minimum": 100
+        },
+        "height_px": {
+          "type": "integer",
+          "minimum": 100
+        },
+        "source": {
+          "const": "solidworks_window"
+        },
+        "method": {
+          "type": "string"
+        },
+        "pid": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "document_id": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "captured_at": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "visual_content_verified": {
+          "const": false
+        }
+      },
+      "required": [
+        "path",
+        "format",
+        "width_px",
+        "height_px",
+        "source",
+        "method",
+        "pid",
+        "document_id",
+        "revision",
+        "captured_at",
+        "sha256",
+        "visual_content_verified"
+      ],
+      "additionalProperties": false
+    },
+    "ApiStepReference": {
+      "type": "object",
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "integer",
+                "minimum": 0
+              }
+            ]
+          },
+          "maxItems": 32
+        }
+      },
+      "required": [
+        "$ref"
+      ],
+      "additionalProperties": false
+    },
+    "ApiDocumentReference": {
+      "type": "object",
+      "properties": {
+        "$document": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "$document"
+      ],
+      "additionalProperties": false
+    },
+    "ApiObjectReference": {
+      "type": "object",
+      "properties": {
+        "$object": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "$object"
+      ],
+      "additionalProperties": false
+    },
+    "ApiTarget": {
+      "oneOf": [
+        {
+          "const": "application"
+        },
+        {
+          "$ref": "#/$defs/ApiStepReference"
+        },
+        {
+          "$ref": "#/$defs/ApiDocumentReference"
+        },
+        {
+          "$ref": "#/$defs/ApiObjectReference"
+        }
+      ]
+    },
+    "ApiValue": {
+      "oneOf": [
+        {
+          "type": [
+            "null",
+            "string",
+            "boolean",
+            "number"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "description": "Nested API values are validated at runtime, with a maximum nesting depth of 16."
+          },
+          "maxItems": 16384
+        },
+        {
+          "$ref": "#/$defs/ApiStepReference"
+        },
+        {
+          "$ref": "#/$defs/ApiDocumentReference"
+        },
+        {
+          "$ref": "#/$defs/ApiObjectReference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "$enum": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1
+                }
+              ]
+            }
+          },
+          "required": [
+            "$enum"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "$missing": {
+              "const": true
+            }
+          },
+          "required": [
+            "$missing"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "$array": {
+              "enum": [
+                "double",
+                "int",
+                "long",
+                "short",
+                "byte",
+                "bool",
+                "string",
+                "object",
+                "dispatch"
+              ]
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "description": "Nested API values are validated at runtime."
+              },
+              "maxItems": 16384
+            }
+          },
+          "required": [
+            "$array",
+            "items"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ApiStep": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,47}$"
+        },
+        "target": {
+          "$ref": "#/$defs/ApiTarget"
+        },
+        "interface": {
+          "type": "string",
+          "minLength": 1
+        },
+        "member": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "enum": [
+            "call",
+            "get",
+            "set"
+          ]
+        },
+        "arguments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ApiValue"
+          }
+        },
+        "parameter_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "return_mode": {
+          "enum": [
+            "auto",
+            "reference"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "target",
+        "interface",
+        "member"
+      ],
+      "additionalProperties": false
+    },
+    "ApiBatch": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "api_batch"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ApiStep"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "expected_active_document_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "release_objects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "type",
+        "steps"
+      ],
+      "additionalProperties": false
+    },
+    "ApiCatalogInput": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "enum": [
+            "summary",
+            "types",
+            "describe",
+            "search"
+          ]
+        },
+        "query": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "type_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "member": {
+          "type": "string"
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "operation"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "describe"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "type_name"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "search"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "query"
+            ]
+          }
+        }
+      ]
+    },
+    "ApiCatalogData": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "api_catalog"
+        },
+        "operation": {
+          "type": "string"
+        },
+        "assemblies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "name",
+              "version"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "runtime_connection_checked": {
+          "const": false
+        },
+        "units": {
+          "type": "string",
+          "minLength": 1
+        },
+        "coverage": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "kind",
+        "operation",
+        "assemblies",
+        "runtime_connection_checked",
+        "units",
+        "coverage"
+      ],
+      "additionalProperties": true
+    },
+    "ApiStepResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interface": {
+          "type": "string",
+          "minLength": 1
+        },
+        "member": {
+          "type": "string",
+          "minLength": 1
+        },
+        "return_value": {},
+        "out_parameters": {
+          "type": "object"
+        },
+        "api_call_completed": {
+          "const": true
+        },
+        "cad_result_verified": {
+          "const": false
+        }
+      },
+      "required": [
+        "id",
+        "interface",
+        "member",
+        "return_value",
+        "out_parameters",
+        "api_call_completed",
+        "cad_result_verified"
+      ],
+      "additionalProperties": false
+    },
+    "ApiObjectInput": {
+      "type": "object",
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "object_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "enum": [
+            "read",
+            "release"
+          ]
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "session_id",
+        "object_id",
+        "operation"
+      ],
+      "additionalProperties": false
+    },
+    "ApiObjectData": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "api_object"
+        },
+        "object_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "kind",
+        "object_id"
+      ],
+      "additionalProperties": true
+    }
+  }
+}

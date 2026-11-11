@@ -1,0 +1,8 @@
+Bridge/state/
+Bridge/models/
+Bridge/reports/
+*.mcp.toml
+__pycache__/
+*.pyc
+bin/
+obj/

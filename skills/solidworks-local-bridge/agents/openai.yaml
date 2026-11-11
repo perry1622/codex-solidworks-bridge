@@ -1,0 +1,4 @@
+interface:
+  display_name: "SolidWorks 本地桥接"
+  short_description: "定位本地 SolidWorks 工具包，查询官方 API 并通过本机桥接检查及建模"
+  default_prompt: "使用 $solidworks-local-bridge 定位我提供的工具包，检查 SolidWorks 连接并执行已支持的建模任务。"

@@ -1,0 +1,72 @@
+{
+  "name": "sw-codex-toolkit-01a1cb2e",
+  "version": "0.4.0",
+  "kind": "portable-metadata-driven-official-com-api-bridge",
+  "agent_entry": "AGENTS.md",
+  "components": {
+    "bridge": {
+      "version": "0.4.0",
+      "entry": "Bridge/SwBridge.exe",
+      "transport": "mcp-stdio",
+      "cad_api": "official-local-com",
+      "default_mode": "read_only",
+      "starts_solidworks": false
+    },
+    "discovery": {
+      "version": "0.1.1",
+      "entry": "Discovery/sw-api-probe.exe",
+      "executable": "Discovery/sw-api-probe.exe",
+      "metadata_only": true
+    }
+  },
+  "requirements": [
+    "Windows 10/11 x64",
+    ".NET Framework 4.8",
+    "licensed local SolidWorks for CAD operations"
+  ],
+  "network_required_at_runtime": false,
+  "mcp_tools": [
+    "sw_status",
+    "sw_inspect",
+    "sw_submit",
+    "sw_job",
+    "sw_api_catalog",
+    "sw_api_object"
+  ],
+  "implemented_write_actions": [
+    "set_parameters",
+    "export_document",
+    "assemble_demo",
+    "insert_component_with_mates",
+    "api_batch"
+  ],
+  "not_implemented": [
+    "in_process_solidworks_addin",
+    "general_recipe_builder",
+    "motion_study",
+    "automatic_global_codex_setup",
+    "automatic_toolbox_size_generation"
+  ],
+  "schema": "Bridge/schemas/bridge.schema.json",
+  "validation": "validation.json",
+  "provenance": "Source/provenance.json",
+  "document_navigation_action": "activate_document",
+  "window_png_readback": {
+    "tool": "sw_inspect",
+    "scope": "snapshot",
+    "response": "details.snapshot",
+    "binary_payload_inline": false
+  },
+  "user_entry": "README.md",
+  "agent_usage": "docs/agent-usage.md",
+  "source_entry": "Source/README.md",
+  "packaging_only_release": false,
+  "api_automation": {
+    "guide": "docs/api-automation.md",
+    "catalog_source": "loaded official managed Interop metadata",
+    "units": "raw_official_api_units",
+    "execution_mode": "live_objects_no_automatic_copy_or_rollback",
+    "additional_libraries": "explicit --api-library startup arguments",
+    "all_methods_verified": false
+  }
+}

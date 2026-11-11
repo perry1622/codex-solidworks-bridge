@@ -1,0 +1,30 @@
+{
+  "package_version": "0.4.0",
+  "bridge_binary_version": "0.4.0",
+  "discovery_binary_version": "0.1.1",
+  "base_release": "0.3.1",
+  "base_manifest_sha256": "e8384e4212b82b32899d30897475c40741c3abd5d54f45948b75511062b92a59",
+  "changes": [
+    "Added official metadata catalog, managed COM API batches and object paging/lifecycle.",
+    "Retained dedicated CAD actions; new build has independent test results.",
+    "Included source, schema, tests and API usage instructions."
+  ],
+  "runtime_files": [
+    {
+      "path": "Bridge/SwBridge.exe",
+      "sha256": "48259a869668b170d74ea856f3610f2baada24c0dc480da53d4237bcaaa5087f"
+    },
+    {
+      "path": "Bridge/SolidWorks.Interop.sldworks.dll",
+      "sha256": "0c1f5f41d7da7c9cdf12e0c9c1c244c6551b300393374fe5fe4d53122f16e7af"
+    },
+    {
+      "path": "Bridge/SolidWorks.Interop.swconst.dll",
+      "sha256": "99932157ec2d78f82dc951c90abc0fc288c0cec503171647b59588a387c54d91"
+    },
+    {
+      "path": "Discovery/sw-api-probe.exe",
+      "sha256": "90b12494caa67a41d7f155e65ea4900885d0bcd2bb44f5b35832ad22f1405d79"
+    }
+  ]
+}
