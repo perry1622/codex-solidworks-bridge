@@ -9,7 +9,7 @@
 | 工具 | 必要输入 | 主要输出 |
 |---|---|---|
 | `sw_status` | 空对象 `{}` | connection、session_id、SolidWorks 版本/进程、文档与 revision、实际 capabilities |
-| `sw_inspect` | session_id、document_id、scopes | 文档状态、按 scope 读取的特征/尺寸/几何引用/组件检查 |
+| `sw_inspect` | session_id、document_id、scopes | 文档状态；`constraints` 轻量约束读回，`mates` 含错误码和抑制状态；按需读取几何/尺寸/截图 |
 | `sw_submit` | schema_version="1.0"、UUID request_id、session_id、expected_documents、execution、output_dir、action | validate 的检查结果或 accepted 的 job_id/状态 |
 | `sw_job` | session_id、job_id、operation="get" 或 "cancel" | 作业终态、步骤、checks、changes、artifacts、error |
 

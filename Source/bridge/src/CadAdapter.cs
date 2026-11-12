@@ -113,6 +113,9 @@ namespace IsolatedSwBridge
                 {
                     return J.Obj("connection", selected.Count > 1 ? "ambiguous" : "disconnected", "instance", null,
                         "candidates", candidates.Select(Describe).ToArray(), "busy", false,
+                        "connection_diagnostic", J.Obj("requested_pid", options.Pid,
+                            "running_pids", Process.GetProcessesByName("SLDWORKS").Select(p => p.Id).ToArray(),
+                            "reason", selected.Count > 1 ? "multiple_registered_instances" : "no_matching_com_registration"),
                         "busy_scope", "bridge_queue_only", "documents", new object[0],
                         "capabilities", Capabilities(), "observed_at", J.Now());
                 }
@@ -170,7 +173,7 @@ namespace IsolatedSwBridge
         private Dictionary<string, object> Summary(DocEntry d)
         {
             string path = d.Doc.GetPathName(); int kind = d.Doc.GetType();
-            bool readOnly = !String.IsNullOrEmpty(path) && File.Exists(path) && (File.GetAttributes(path) & FileAttributes.ReadOnly) != 0;
+            bool readOnly = d.Doc.IsOpenedReadOnly() || (!String.IsNullOrEmpty(path) && File.Exists(path) && (File.GetAttributes(path) & FileAttributes.ReadOnly) != 0);
             return J.Obj("document_id", d.Id, "path", String.IsNullOrEmpty(path) ? null : path,
                 "document_type", kind == 1 ? "part" : kind == 2 ? "assembly" : "drawing",
                 "configuration", Configuration(d.Doc), "revision", Revision(d), "dirty", d.Doc.GetSaveFlag(), "read_only", readOnly);
@@ -230,10 +233,11 @@ namespace IsolatedSwBridge
             var scopes = new HashSet<string>((J.Get(args, "scopes") == null ? new object[] { "summary" } : J.Items(args["scopes"])).Select(x => x as string));
             if (scopes.Count == 0 || (J.Get(args, "scopes") != null && scopes.Count != J.Items(args["scopes"]).Length))
                 throw new Fault("VALIDATION_FAILED", "Inspection scopes must be nonempty and unique.");
-            if (scopes.Any(s => !new[] { "summary", "geometry", "parameters", "references", "mates", "checks", "snapshot" }.Contains(s)))
+            if (scopes.Any(s => !new[] { "summary", "geometry", "parameters", "references", "mates", "constraints", "checks", "snapshot" }.Contains(s)))
                 throw new Fault("VALIDATION_FAILED", "Unknown inspection scope.");
             var parameters = new List<object>(); var references = new List<object>(); var checks = new List<object>();
             object geometry = null; var details = new Dictionary<string, object>();
+            if (scopes.Contains("constraints")) InspectConstraints(d, details, checks);
             if (scopes.Contains("geometry"))
             {
                 if (d.Doc.GetType() == 1)
@@ -314,8 +318,11 @@ namespace IsolatedSwBridge
             {
                 mateSummary = AssemblyMateFeatures(d.Doc).Select(feature => {
                     bool warning; int error = feature.GetErrorCode2(out warning); var mate = (IMate2)feature.GetSpecificFeature2();
+                    var suppressed = feature.IsSuppressed2((int)swInConfigurationOpts_e.swThisConfiguration, null) as bool[];
+                    if (suppressed == null || suppressed.Length != 1) throw new Fault("API_FAILED", "Mate suppression state is unavailable: " + feature.Name);
                     return J.Obj("role", feature.Name, "kind", mate.Type == (int)swMateType_e.swMateCONCENTRIC ? "concentric" : mate.Type == (int)swMateType_e.swMateCOINCIDENT ? "coincident" : "type_" + mate.Type,
-                        "state", error == 0 ? "not_checked" : "failed");
+                        "state", error == 0 ? "not_checked" : "failed", "error_code", error, "is_warning", warning,
+                        "suppressed", suppressed[0]);
                 }).ToArray();
                 checks.Add(J.Check("MATE_READBACK", "pass", "mate feature type and error flags", "Mate identities were read without rebuilding; this inspection does not certify a new solve or a motion study."));
             }

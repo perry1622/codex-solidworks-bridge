@@ -1,18 +1,20 @@
 {
   "package_version": "0.4.0",
+  "agent_handoff_revision": 2,
   "bridge_binary_version": "0.4.0",
   "discovery_binary_version": "0.1.1",
   "packaging_only_release": false,
-  "tested_at": "2026-11-12T02:46:41.326734+08:00",
-  "bridge_sha256": "48259a869668b170d74ea856f3610f2baada24c0dc480da53d4237bcaaa5087f",
+  "tested_at": "2026-11-12T12:29:09.879885+08:00",
+  "bridge_sha256": "dcbf9f519d33bbb00ebf004f04023e0786b24902de3bd66c73e3bb61233f4c3e",
   "discovery_sha256": "90b12494caa67a41d7f155e65ea4900885d0bcd2bb44f5b35832ad22f1405d79",
   "actual_solidworks_instance": {
-    "instance_id": "solidworks-pid-27312",
-    "pid": 27312,
+    "instance_id": "solidworks-pid-41192",
+    "pid": 41192,
     "solidworks_revision": "33.1.2"
   },
   "api_tests": {
-    "passed": 29,
+    "scope": "metadata_protocol_read_only_rejection",
+    "passed": 12,
     "failed": 0,
     "cases": {
       "tool_discovery": "passed",
@@ -26,45 +28,45 @@
       "unknown_interface": "passed",
       "missing_search_query": "passed",
       "unknown_catalog_field": "passed",
-      "read_only_api_call_rejected": "passed",
-      "actual_solidworks_connection": "passed",
-      "api_batch_validate": "passed",
-      "actual_com_objects_and_typed_array": "passed",
-      "actual_property_set_and_read": "passed",
-      "object_reference_across_batches": "passed",
-      "actual_api_array_pagination": "passed",
-      "idempotent_request_replay": "passed",
-      "changed_request_id_conflict": "passed",
-      "actual_ref_out_values": "passed",
-      "invalid_enum_rejected_before_call": "passed",
-      "arbitrary_managed_type_rejected": "passed",
-      "fractional_int_rejected": "passed",
-      "forward_reference_rejected": "passed",
-      "raw_buffer_invocation_rejected": "passed",
-      "transport_object_release": "passed",
-      "released_object_rejected": "passed",
-      "no_automatic_success_claim": "passed"
+      "read_only_api_call_rejected": "passed"
     }
   },
-  "protocol_baseline": {
-    "mcp_initialize": "pass",
-    "tool_discovery": "pass",
-    "ping": "pass",
-    "cad_connection": "connected",
-    "document_enumeration": "pass",
-    "document_inspection": "not_run_no_open_documents",
-    "stale_session_rejected": "pass",
-    "read_only_write_rejected": "pass",
-    "unknown_fields_rejected": "pass",
-    "unknown_tool_rejected": "pass"
+  "agent_handoff_tests": {
+    "scope": "existing assemblies opened read-only; unlocked and original fully constrained cases",
+    "passed": 19,
+    "failed": 0,
+    "cases": {
+      "unavailable_target_explained": "passed",
+      "running_processes_reported": "passed",
+      "actual_connection": "passed",
+      "open_read_only_0": "passed",
+      "read_only_confirmed_0": "passed",
+      "all_components_read_0": "passed",
+      "native_constraint_names_0": "passed",
+      "mate_evidence_explicit_0": "passed",
+      "motion_not_inferred_0": "passed",
+      "open_read_only_1": "passed",
+      "read_only_confirmed_1": "passed",
+      "all_components_read_1": "passed",
+      "native_constraint_names_1": "passed",
+      "mate_evidence_explicit_1": "passed",
+      "motion_not_inferred_1": "passed",
+      "movable_delivery_distinguished": "passed",
+      "original_angle_lock_detected": "passed",
+      "input_angle_suppression_visible": "passed",
+      "source_assemblies_unchanged": "passed"
+    },
+    "cad_files_saved": false
   },
   "contract_checks": {
     "status": "passed",
-    "responses_checked": 40,
-    "powershell_files_checked": 10
+    "responses_checked": 53
   },
-  "additional_official_interop_metadata_loading": "passed_for_installed_swpublished_ISwAddin",
-  "config_toml_and_python_syntax": "passed",
+  "skill_validator": "passed",
+  "agent_entry_bytes": {
+    "before": 9482,
+    "after": 6154
+  },
   "catalog": {
     "assemblies": [
       {
@@ -81,18 +83,58 @@
     "method_count": 16686,
     "transport_candidate_count": 15293
   },
+  "historical_validation": {
+    "bridge_sha256": "48259a869668b170d74ea856f3610f2baada24c0dc480da53d4237bcaaa5087f",
+    "tested_at": "2026-11-12T02:46:41.326734+08:00",
+    "api_tests": {
+      "passed": 29,
+      "failed": 0,
+      "cases": {
+        "tool_discovery": "passed",
+        "official_metadata_catalog": "passed",
+        "official_ref_out_signature": "passed",
+        "official_enum_values": "passed",
+        "method_search": "passed",
+        "catalog_pagination": "passed",
+        "raw_buffer_limit_reported": "passed",
+        "negative_offset": "passed",
+        "unknown_interface": "passed",
+        "missing_search_query": "passed",
+        "unknown_catalog_field": "passed",
+        "read_only_api_call_rejected": "passed",
+        "actual_solidworks_connection": "passed",
+        "api_batch_validate": "passed",
+        "actual_com_objects_and_typed_array": "passed",
+        "actual_property_set_and_read": "passed",
+        "object_reference_across_batches": "passed",
+        "actual_api_array_pagination": "passed",
+        "idempotent_request_replay": "passed",
+        "changed_request_id_conflict": "passed",
+        "actual_ref_out_values": "passed",
+        "invalid_enum_rejected_before_call": "passed",
+        "arbitrary_managed_type_rejected": "passed",
+        "fractional_int_rejected": "passed",
+        "forward_reference_rejected": "passed",
+        "raw_buffer_invocation_rejected": "passed",
+        "transport_object_release": "passed",
+        "released_object_rejected": "passed",
+        "no_automatic_success_claim": "passed"
+      }
+    },
+    "applies_to_current_binary": false
+  },
   "geometry_created_in_this_test": false,
   "not_validated": [
     "every_official_method",
     "all_products_and_addin_licenses",
-    "every_runtime_version",
+    "other_runtime_versions",
     "cross_computer",
     "native_pointers_and_callbacks",
     "in_process_addin_execution",
-    "motion_study",
-    "gearbox_geometry_and_motion_separate_task",
-    "dedicated_parameter_export_and_assembly_actions_not_retested_in_0_4_0"
+    "full_generic_invocation_suite_on_current_binary",
+    "geometry_writes_and_motion_playback"
   ],
+  "test_limitation": "The full generic invocation rerun could not complete after the isolated test instance lost COM attachment. Current results cover 12 protocol/metadata checks and 19 actual CAD readback checks; historical results are kept separate.",
   "global_codex_configuration_modified": false,
   "original_0_3_1_package_modified": false
 }

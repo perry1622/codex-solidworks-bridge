@@ -43,7 +43,7 @@
   "not_implemented": [
     "in_process_solidworks_addin",
     "general_recipe_builder",
-    "motion_study",
+    "dedicated_motion_study_action",
     "automatic_global_codex_setup",
     "automatic_toolbox_size_generation"
   ],
@@ -68,5 +68,16 @@
     "execution_mode": "live_objects_no_automatic_copy_or_rollback",
     "additional_libraries": "explicit --api-library startup arguments",
     "all_methods_verified": false
-  }
+  },
+  "agent_handoff_revision": 2,
+  "inspection_scopes": [
+    "summary",
+    "constraints",
+    "mates",
+    "checks",
+    "geometry",
+    "parameters",
+    "references",
+    "snapshot"
+  ]
 }

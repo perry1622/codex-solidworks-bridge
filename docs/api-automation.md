@@ -70,6 +70,14 @@ sw_api_object 参数如下；operation=release 释放，operation=read 加 offse
 
 释放只删除桥接引用，不关闭用户文档，不强制 ReleaseComObject。
 
+## 运动模块与上下文
+
+`capabilities.native_motion_study=false` 表示没有专用运动算例动作；通用调用仍可通过 `--api-library` 加载本机 `SolidWorks.Interop.swmotionstudy.dll` 后访问官方运动接口。用 catalog 查询实际类型与签名，按本机安装和许可验证可用性。
+
+运动算例与模型状态分开验收。`IMotionStudy.SetTime` 设置时间条，不据此推断组件 `Transform2` 已代表该动画帧；动画结果对象是否适用于该算例类型也需验证。计算模型几何时先切回实际模型页：本机中文界面已验证 `IMotionStudyManager.ActivateMotionStudy("模型")`，其他语言按实际名称确认。
+
+只读装配检查可使用 `scopes:["summary","constraints","mates","checks"]`。`details.component_constraints` 返回固定状态、原生约束状态、抑制状态和模型变换；最多 100 个组件，超出范围会有未检查提示。`mates` 的 `error_code/is_warning/suppressed` 是当前配合读回，不等于运动或干涉验收。完整验收要求统一见 [AGENTS.md](../AGENTS.md)。
+
 ## 执行边界
 
 任意 API 执行需要 --allow-write，不能仅凭方法名或 getter 保证无副作用。元数据检索不需要 SW 或写入模式。

@@ -1,7 +1,7 @@
 {
   "package": "sw-codex-toolkit-01a1cb2e",
   "release": "0.4.0",
-  "generated_utc": "2026-11-11T18:46:41.6902874Z",
+  "generated_utc": "2026-11-12T04:29:11.2950263Z",
   "checksum_purpose": "Accidental-change detection; checksums alone do not authenticate the publisher.",
   "files": [
     {
@@ -11,8 +11,8 @@
     },
     {
       "path": "AGENTS.md",
-      "size_bytes": 2765,
-      "sha256": "737510af842e38b31e22337468fc891f1fc7199b05084a20b4342c6451e83361"
+      "size_bytes": 3187,
+      "sha256": "a73ffadebe848bc861a5530daf6f6ee9bc8756e6eee8b1aa8f1b8873eaed1a4e"
     },
     {
       "path": "Bridge/BridgeClient.ps1",
@@ -21,8 +21,8 @@
     },
     {
       "path": "Bridge/schemas/bridge.schema.json",
-      "size_bytes": 44814,
-      "sha256": "ad1cbf2001916abd5322433df15f278404f197ff7231a915860268bf3f991ec5"
+      "size_bytes": 47415,
+      "sha256": "40e06b74afd1c4ff5824adb8df6df69be167f32a66bc66e7faee71d9371d1949"
     },
     {
       "path": "Bridge/SolidWorks.Interop.sldworks.dll",
@@ -36,8 +36,8 @@
     },
     {
       "path": "Bridge/SwBridge.exe",
-      "size_bytes": 123904,
-      "sha256": "48259a869668b170d74ea856f3610f2baada24c0dc480da53d4237bcaaa5087f"
+      "size_bytes": 127488,
+      "sha256": "dcbf9f519d33bbb00ebf004f04023e0786b24902de3bd66c73e3bb61233f4c3e"
     },
     {
       "path": "Bridge/SwBridge.exe.config",
@@ -56,18 +56,18 @@
     },
     {
       "path": "docs/agent-usage.md",
-      "size_bytes": 4833,
-      "sha256": "d2093ae92eef6d85d7ab0c10f77e84522bb876ca8adba575b7e60c227023b664"
+      "size_bytes": 2252,
+      "sha256": "54e91193fa40987c20842ce2c477efd7e27f14bdb99b5c389c72a9e254e99ec1"
     },
     {
       "path": "docs/api-automation.md",
-      "size_bytes": 5727,
-      "sha256": "d22f1556b6c46b74f5c2f12d36d44900590b5a817c092eea427a633a58910966"
+      "size_bytes": 6833,
+      "sha256": "73d918f92cf9ee9e37d7aed4d12d9bda22ba4047aaef12d057b4abf03c7fc96e"
     },
     {
       "path": "docs/interface.md",
-      "size_bytes": 8136,
-      "sha256": "81bad4bae0ee6774e8340575843eaae135ba9fc2745699e673f3e1b47fdc6ba3"
+      "size_bytes": 8183,
+      "sha256": "64b360972cd280563144c962be09b12202690d44def58328a3ec3e07f6ad0492"
     },
     {
       "path": "New-CodexConfig.ps1",
@@ -76,13 +76,13 @@
     },
     {
       "path": "package.json",
-      "size_bytes": 2112,
-      "sha256": "a28865b1de8e888b6250a3ae4c21942fb794356ea748880279387ef35d36e173"
+      "size_bytes": 2329,
+      "sha256": "3ff7df150571e8c7355b6b5d3fbb2768a070b173d1c99f92faa5b7ddf946d332"
     },
     {
       "path": "README.md",
-      "size_bytes": 3797,
-      "sha256": "12b7702862b3353f9cce4ae928518bbd47eea6fb132901cdc3279a840eb25f74"
+      "size_bytes": 4097,
+      "sha256": "a427602c5218ad645aa7e4f1ec71df024c3f37e5d365210010be5174e84fd7cc"
     },
     {
       "path": "skills/solidworks-local-bridge/agents/openai.yaml",
@@ -91,8 +91,8 @@
     },
     {
       "path": "skills/solidworks-local-bridge/SKILL.md",
-      "size_bytes": 1884,
-      "sha256": "af0ab2c4541f7b00662c1bb24d34aa884a75be6340f752e782714edbb4df7c94"
+      "size_bytes": 715,
+      "sha256": "29d785e32d7ae80af8d3ba920fe50d79d31a07b95f79d8e7d717dec76598afa5"
     },
     {
       "path": "Source/bridge/build.ps1",
@@ -101,8 +101,8 @@
     },
     {
       "path": "Source/bridge/schema/bridge.schema.json",
-      "size_bytes": 44814,
-      "sha256": "ad1cbf2001916abd5322433df15f278404f197ff7231a915860268bf3f991ec5"
+      "size_bytes": 47415,
+      "sha256": "40e06b74afd1c4ff5824adb8df6df69be167f32a66bc66e7faee71d9371d1949"
     },
     {
       "path": "Source/bridge/src/ApiAutomation.cs",
@@ -130,9 +130,14 @@
       "sha256": "4508f27044349b42d2b236c74940068463a4eb84a80860ec9ac1aad2038e6311"
     },
     {
+      "path": "Source/bridge/src/AssemblyInspection.cs",
+      "size_bytes": 1936,
+      "sha256": "0bb9196e078fcd3a06ef9321af83a1c5e8644d8d96b316beee2b2ddd55ebc0b4"
+    },
+    {
       "path": "Source/bridge/src/CadAdapter.cs",
-      "size_bytes": 31314,
-      "sha256": "5961abf1e20803588ebfe0700295eae99a4185990d9b25c38753c998cf343418"
+      "size_bytes": 32159,
+      "sha256": "f66c5cc48962b6f0db50e66e48d4ff6cf8112a389fdec1eb6ff084fe06215708"
     },
     {
       "path": "Source/bridge/src/Core.cs",
@@ -146,8 +151,8 @@
     },
     {
       "path": "Source/bridge/src/Program.cs",
-      "size_bytes": 10688,
-      "sha256": "6f91133a1c24525daf70d82ea2c66b94cc488d9c5802c373f9b61cd68d49b111"
+      "size_bytes": 11043,
+      "sha256": "7d6daf5a2bd260624fd0da283885db01c3d79fc6e126ab0d8c7474a500cc0948"
     },
     {
       "path": "Source/bridge/src/WindowSnapshot.cs",
@@ -176,13 +181,13 @@
     },
     {
       "path": "Source/provenance.json",
-      "size_bytes": 1117,
-      "sha256": "0ffdbe45a90e8fbfc540aaf282f4eaceec852a895d46151312d28036f8c19dcb"
+      "size_bytes": 1349,
+      "sha256": "761a2f2b4548dc8318d051cdc1509027901df5676271b0ccfee1548e86ced52a"
     },
     {
       "path": "Source/README.md",
-      "size_bytes": 3036,
-      "sha256": "e90e9467d01734d94f5c09b355e4c74438112d3667fba671179cad79cd43b08d"
+      "size_bytes": 3449,
+      "sha256": "693501ed3b854d38708c83be460eb8ce7b9efc0a268ce4c59e946db2a394e2c0"
     },
     {
       "path": "Source/tests/bridge_rpc.py",
@@ -193,6 +198,11 @@
       "path": "Source/tests/check_api.py",
       "size_bytes": 8636,
       "sha256": "b65e757a1b1a0a44541fb40c95e1e92f4df24de1709601658ebab0981d97bbcb"
+    },
+    {
+      "path": "Source/tests/check_handoff.py",
+      "size_bytes": 5328,
+      "sha256": "1e62a50df449d972774ddbf36442b017043ea81d7d7ec607ec9670af5b63a41c"
     },
     {
       "path": "Source/tests/check_mcp.py",
@@ -216,8 +226,8 @@
     },
     {
       "path": "validation.json",
-      "size_bytes": 3457,
-      "sha256": "c81dc0497b4c1ca116180108834cb4744fb0cfa07d94c55caa8b8bdca78a50a9"
+      "size_bytes": 5207,
+      "sha256": "b4000b8d946f99527117a0dd6bc8d472252ab6f7ccdb07ab6aba25fd9731f2fc"
     },
     {
       "path": "Verify-Package.ps1",

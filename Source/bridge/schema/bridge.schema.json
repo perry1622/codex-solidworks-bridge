@@ -224,6 +224,7 @@
               "parameters",
               "references",
               "mates",
+              "constraints",
               "checks",
               "snapshot"
             ]
@@ -560,7 +561,8 @@
           "uniqueItems": true
         },
         "native_motion_study": {
-          "const": false
+          "const": false,
+          "description": "No dedicated motion-study action. Generic api_batch may call installed official motion interfaces with --api-library; availability and results require verification."
         },
         "write_enabled": {
           "type": "boolean"
@@ -642,6 +644,9 @@
             "string",
             "null"
           ]
+        },
+        "connection_diagnostic": {
+          "$ref": "#/$defs/ConnectionDiagnostic"
         }
       },
       "required": [
@@ -861,6 +866,15 @@
             "failed",
             "not_checked"
           ]
+        },
+        "error_code": {
+          "type": "integer"
+        },
+        "is_warning": {
+          "type": "boolean"
+        },
+        "suppressed": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -925,6 +939,17 @@
           "properties": {
             "snapshot": {
               "$ref": "#/$defs/WindowSnapshot"
+            },
+            "component_constraints": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ComponentConstraint"
+              },
+              "maxItems": 100
+            },
+            "component_count": {
+              "type": "integer",
+              "minimum": 0
             }
           }
         }
@@ -1972,6 +1997,84 @@
         "object_id"
       ],
       "additionalProperties": true
+    },
+    "ConnectionDiagnostic": {
+      "type": "object",
+      "properties": {
+        "requested_pid": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "running_pids": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "uniqueItems": true
+        },
+        "reason": {
+          "enum": [
+            "no_matching_com_registration",
+            "multiple_registered_instances"
+          ]
+        }
+      },
+      "required": [
+        "requested_pid",
+        "running_pids",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "ComponentConstraint": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "fixed": {
+          "type": "boolean"
+        },
+        "suppression_status": {
+          "type": "integer"
+        },
+        "constraint_status": {
+          "type": "integer"
+        },
+        "constraint_status_name": {
+          "type": "string"
+        },
+        "transform_data": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 16,
+              "maxItems": 16
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "path",
+        "fixed",
+        "suppression_status",
+        "constraint_status",
+        "constraint_status_name",
+        "transform_data"
+      ],
+      "additionalProperties": false
     }
   }
 }

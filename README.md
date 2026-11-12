@@ -11,6 +11,8 @@ Codex → MCP stdio → SwBridge.exe → 官方 COM → SolidWorks
 
 Agent 先查官方接口，核对签名和帮助，再通过对象引用串联调用。原有状态、检查、零件副本修改、导出和装配动作继续保留。
 
+Agent 接入约定修订 2：入口集中在 AGENTS.md；装配检查新增轻量 `constraints`，配合直接返回错误码和抑制状态；连接失败会列出运行中的 SW PID 与 COM 注册情况。文档的 `read_only` 同时反映 SolidWorks 的只读打开状态和文件只读属性。
+
 ## 接入
 
 1. 整包解压到固定、可写目录，打开目标 SolidWorks。

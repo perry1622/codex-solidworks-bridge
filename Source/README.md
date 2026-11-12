@@ -8,12 +8,15 @@ python .\Source\tests\check_api.py --package 实际Bridge目录 --pid 目标进�
 
 不加 --pid 时只检查元数据、协议和只读拒绝；加 --pid 会通过写入桥接测试 MathUtility、属性和失败的文件打开（ref/out），不创建模型几何。
 
+`tests/check_handoff.py` 接受 `--package`、`--pid`、`--assembly`（可动装配）、`--locked-assembly`（被角度锁定的回归装配）和 `--report`，以只读方式打开现有 CAD 文件，验证约束、配合抑制和实际只读状态。它不保存模型、不退出 SolidWorks；测试应使用独立实例。
+
 | 位置 | 职责 |
 |---|---|
-| `bridge/src/Program.cs` | MCP 握手、四工具及 JSON-RPC 路由 |
+| `bridge/src/Program.cs` | MCP 握手、六工具及 JSON-RPC 路由 |
 | `bridge/src/Core.cs`、`Jobs.cs` | 路径、序列化、STA 队列、前置条件、作业持久化与幂等 |
 | `bridge/src/CadAdapter.cs` | 附加已打开的 SW、文档/几何读写、导出和窗口恢复 |
 | `bridge/src/AssemblyAdjustment.cs` | 已有零件副本插入、配合与读回 |
+| `bridge/src/AssemblyInspection.cs` | 不遍历面的轻量装配约束读回 |
 | `bridge/src/AssemblyDemo.cs` | 仅限空装配体的演示动作 |
 | `bridge/src/WindowSnapshot.cs` | 指定 SW 窗口的 PNG 捕获和 DPI 处理 |
 | `bridge/schema/bridge.schema.json` | 唯一编辑的协议源；构建时复制为运行时 `Bridge/schemas/bridge.schema.json` |

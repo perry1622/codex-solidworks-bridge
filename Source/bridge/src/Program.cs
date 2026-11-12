@@ -54,8 +54,8 @@ namespace IsolatedSwBridge
             string[] names = { "sw_status", "sw_inspect", "sw_submit", "sw_job", "sw_api_catalog", "sw_api_object" };
             string[] definitions = { "StatusInput", "InspectInput", "SubmitInput", "JobInput", "ApiCatalogInput", "ApiObjectInput" };
             string[] descriptions = {
-                "Attach to an existing SolidWorks instance without starting it, and read version, document summaries and actual capabilities. Does not change CAD documents.",
-                "Read a current document by its session-local ID. Optional geometry, named dimensions and feature states. Does not rebuild or move components.",
+                "Attach to an existing SolidWorks instance without starting it. Read documents and capabilities; on attachment failure, distinguish running processes from available COM registrations using connection_diagnostic.",
+                "Read a document without rebuilding. Start with summary; use constraints/mates for lightweight fixation, native constraint states, mate errors and suppression. geometry also walks faces; snapshot captures the SW window. Readback does not certify motion or collision freedom.",
                 "Validate or queue saved-part copy updates, exports, assembly insertion, or api_batch calls to official COM interfaces. api_batch operates on live objects in raw API units and can modify/save/delete files according to the requested API; no automatic copy or rollback. Requires --allow-write.",
                 "Read persistent job state, or request cancellation at a step boundary. A failed job remains a successful status lookup.",
                 "Search the loaded official Interop interfaces, exact method/ref/out signatures and enum values without connecting to CAD. Paginate with offset/limit. Metadata availability does not prove runtime version/license/context support. Use sw_submit action api_batch to invoke discovered members.",
@@ -102,7 +102,7 @@ namespace IsolatedSwBridge
                     initialized = true;
                     Reply(id, J.Obj("protocolVersion", protocol, "capabilities", J.Obj("tools", J.Obj("listChanged", false)),
                         "serverInfo", J.Obj("name", "solidworks-local-01a1cb2e", "version", "0.4.0"),
-                        "instructions", "Local attach-only bridge. Read-only by default. Check sw_status before submitting work; capabilities are explicit."));
+                        "instructions", "Read the package AGENTS.md. Start with sw_status and a focused sw_inspect; use sw_api_catalog before api_batch. API return, constraint state, collision checks, native playback and saved-file verification are separate evidence. Never infer CAD task success from a completed API call."));
                     return;
                 }
                 if (method == "ping") { Reply(id, J.Obj()); return; }
