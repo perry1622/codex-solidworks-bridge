@@ -215,8 +215,9 @@ namespace IsolatedSwBridge
         }
         private void CheckObjectRevision(ApiObject value)
         {
+            RefreshDocuments();
             foreach (var item in value.Revisions)
-                if (Revision(Find(item.Key)) != item.Value) throw new Fault("DOC_REVISION_MISMATCH", "An API object's document changed. Reacquire the object from the current document.");
+                if (Revision(FindKnown(item.Key)) != item.Value) throw new Fault("DOC_REVISION_MISMATCH", "An API object's document changed. Reacquire the object from the current document.");
         }
         private void ApiPreconditions(Dictionary<string, object> args)
         {

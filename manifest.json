@@ -1,238 +1,268 @@
 {
-  "package": "sw-codex-toolkit-01a1cb2e",
-  "release": "0.4.0",
-  "generated_utc": "2026-11-12T04:29:11.2950263Z",
-  "checksum_purpose": "Accidental-change detection; checksums alone do not authenticate the publisher.",
-  "files": [
-    {
-      "path": ".gitignore",
-      "size_bytes": 93,
-      "sha256": "d4d19e9902bcb15ded864b7e611c9fc37b18a4e55c776ed9446a6d8f3e00c5b0"
-    },
-    {
-      "path": "AGENTS.md",
-      "size_bytes": 3187,
-      "sha256": "a73ffadebe848bc861a5530daf6f6ee9bc8756e6eee8b1aa8f1b8873eaed1a4e"
-    },
-    {
-      "path": "Bridge/BridgeClient.ps1",
-      "size_bytes": 3670,
-      "sha256": "7ed31cd983718acc0039b80dfef7fe0069565381dd81bb0ae356572bdf7fa77a"
-    },
-    {
-      "path": "Bridge/schemas/bridge.schema.json",
-      "size_bytes": 47415,
-      "sha256": "40e06b74afd1c4ff5824adb8df6df69be167f32a66bc66e7faee71d9371d1949"
-    },
-    {
-      "path": "Bridge/SolidWorks.Interop.sldworks.dll",
-      "size_bytes": 2821504,
-      "sha256": "0c1f5f41d7da7c9cdf12e0c9c1c244c6551b300393374fe5fe4d53122f16e7af"
-    },
-    {
-      "path": "Bridge/SolidWorks.Interop.swconst.dll",
-      "size_bytes": 476544,
-      "sha256": "99932157ec2d78f82dc951c90abc0fc288c0cec503171647b59588a387c54d91"
-    },
-    {
-      "path": "Bridge/SwBridge.exe",
-      "size_bytes": 127488,
-      "sha256": "dcbf9f519d33bbb00ebf004f04023e0786b24902de3bd66c73e3bb61233f4c3e"
-    },
-    {
-      "path": "Bridge/SwBridge.exe.config",
-      "size_bytes": 212,
-      "sha256": "5d4cd327e430b0139d55bb5204d25e3944214cbeaa75a3790bb6771ed04dc26d"
-    },
-    {
-      "path": "Bridge/Test-Connection.ps1",
-      "size_bytes": 1758,
-      "sha256": "82f0e0b0ce6ec73126a8029be7c9bbe049ba846c9026e075f1fd9987aecca2f9"
-    },
-    {
-      "path": "Discovery/sw-api-probe.exe",
-      "size_bytes": 20480,
-      "sha256": "90b12494caa67a41d7f155e65ea4900885d0bcd2bb44f5b35832ad22f1405d79"
-    },
-    {
-      "path": "docs/agent-usage.md",
-      "size_bytes": 2252,
-      "sha256": "54e91193fa40987c20842ce2c477efd7e27f14bdb99b5c389c72a9e254e99ec1"
-    },
-    {
-      "path": "docs/api-automation.md",
-      "size_bytes": 6833,
-      "sha256": "73d918f92cf9ee9e37d7aed4d12d9bda22ba4047aaef12d057b4abf03c7fc96e"
-    },
-    {
-      "path": "docs/interface.md",
-      "size_bytes": 8183,
-      "sha256": "64b360972cd280563144c962be09b12202690d44def58328a3ec3e07f6ad0492"
-    },
-    {
-      "path": "New-CodexConfig.ps1",
-      "size_bytes": 1869,
-      "sha256": "9d803989b0f1391f49c340bcec5a09e5c61ebb84257ce48f6724c34373157817"
-    },
-    {
-      "path": "package.json",
-      "size_bytes": 2329,
-      "sha256": "3ff7df150571e8c7355b6b5d3fbb2768a070b173d1c99f92faa5b7ddf946d332"
-    },
-    {
-      "path": "README.md",
-      "size_bytes": 4097,
-      "sha256": "a427602c5218ad645aa7e4f1ec71df024c3f37e5d365210010be5174e84fd7cc"
-    },
-    {
-      "path": "skills/solidworks-local-bridge/agents/openai.yaml",
-      "size_bytes": 309,
-      "sha256": "d8d1ec4240d93e0ba120511e73ef780372a16e318c9b3c0004ab24e8d61418cf"
-    },
-    {
-      "path": "skills/solidworks-local-bridge/SKILL.md",
-      "size_bytes": 715,
-      "sha256": "29d785e32d7ae80af8d3ba920fe50d79d31a07b95f79d8e7d717dec76598afa5"
-    },
-    {
-      "path": "Source/bridge/build.ps1",
-      "size_bytes": 1845,
-      "sha256": "53730ed93df689d76b8b93930c9dcdae2d321879cda24d5542d8f4b77ce18323"
-    },
-    {
-      "path": "Source/bridge/schema/bridge.schema.json",
-      "size_bytes": 47415,
-      "sha256": "40e06b74afd1c4ff5824adb8df6df69be167f32a66bc66e7faee71d9371d1949"
-    },
-    {
-      "path": "Source/bridge/src/ApiAutomation.cs",
-      "size_bytes": 23376,
-      "sha256": "60465cc4ed2e024b1cab6527731531c37813e370613548b1cf381bf7af31580d"
-    },
-    {
-      "path": "Source/bridge/src/ApiCatalog.cs",
-      "size_bytes": 11702,
-      "sha256": "e20de931e1fd683fdaad16d2352393aded3c58c82d3a017b2232328c9b5d27dc"
-    },
-    {
-      "path": "Source/bridge/src/AssemblyAdjustment.cs",
-      "size_bytes": 17972,
-      "sha256": "fefbd467e9400f4810eacf42119361d88fab13753a4b793ba2424dbec1bcc75d"
-    },
-    {
-      "path": "Source/bridge/src/AssemblyDemo.cs",
-      "size_bytes": 13995,
-      "sha256": "d23939b4e297a9dbbe27efd9998696203ee595c9c9de56bf9d12d8d8732c277b"
-    },
-    {
-      "path": "Source/bridge/src/AssemblyInfo.cs",
-      "size_bytes": 299,
-      "sha256": "4508f27044349b42d2b236c74940068463a4eb84a80860ec9ac1aad2038e6311"
-    },
-    {
-      "path": "Source/bridge/src/AssemblyInspection.cs",
-      "size_bytes": 1936,
-      "sha256": "0bb9196e078fcd3a06ef9321af83a1c5e8644d8d96b316beee2b2ddd55ebc0b4"
-    },
-    {
-      "path": "Source/bridge/src/CadAdapter.cs",
-      "size_bytes": 32159,
-      "sha256": "f66c5cc48962b6f0db50e66e48d4ff6cf8112a389fdec1eb6ff084fe06215708"
-    },
-    {
-      "path": "Source/bridge/src/Core.cs",
-      "size_bytes": 13351,
-      "sha256": "10f85d9d399004f7302fab66d6a57f3e658ea38ed7418b20b188e3ba80381c06"
-    },
-    {
-      "path": "Source/bridge/src/Jobs.cs",
-      "size_bytes": 14151,
-      "sha256": "2535fb764732eba670840b1b969bc4a5332df5f60a4e93086e5daae5c73f8203"
-    },
-    {
-      "path": "Source/bridge/src/Program.cs",
-      "size_bytes": 11043,
-      "sha256": "7d6daf5a2bd260624fd0da283885db01c3d79fc6e126ab0d8c7474a500cc0948"
-    },
-    {
-      "path": "Source/bridge/src/WindowSnapshot.cs",
-      "size_bytes": 3952,
-      "sha256": "01901f68a14daa82e1dfb76178f0bed1c964f810aa78e853aadc8de3a3ddc8d5"
-    },
-    {
-      "path": "Source/bridge/SwBridge.exe.config",
-      "size_bytes": 212,
-      "sha256": "5d4cd327e430b0139d55bb5204d25e3944214cbeaa75a3790bb6771ed04dc26d"
-    },
-    {
-      "path": "Source/Build-All.ps1",
-      "size_bytes": 642,
-      "sha256": "c352753f01c2ab1d662f20cbe4762752c1ed01521cb47fc1ea9b7a6023dd9c41"
-    },
-    {
-      "path": "Source/discovery/build.ps1",
-      "size_bytes": 603,
-      "sha256": "37af0c835c323ddce4df9367b06e45785e1f8ed3e470999f2aa243520303749c"
-    },
-    {
-      "path": "Source/discovery/SwApiProbe.cs",
-      "size_bytes": 17522,
-      "sha256": "a50134cd6fda995f710110962e0a20f8ffaa410880558e4bddc486518629cd53"
-    },
-    {
-      "path": "Source/provenance.json",
-      "size_bytes": 1349,
-      "sha256": "761a2f2b4548dc8318d051cdc1509027901df5676271b0ccfee1548e86ced52a"
-    },
-    {
-      "path": "Source/README.md",
-      "size_bytes": 3449,
-      "sha256": "693501ed3b854d38708c83be460eb8ce7b9efc0a268ce4c59e946db2a394e2c0"
-    },
-    {
-      "path": "Source/tests/bridge_rpc.py",
-      "size_bytes": 5507,
-      "sha256": "4a33864b27e21ce944baa0eed9be0706bc1e8a76bf3b7b045a874aa9c9351776"
-    },
-    {
-      "path": "Source/tests/check_api.py",
-      "size_bytes": 8636,
-      "sha256": "b65e757a1b1a0a44541fb40c95e1e92f4df24de1709601658ebab0981d97bbcb"
-    },
-    {
-      "path": "Source/tests/check_handoff.py",
-      "size_bytes": 5328,
-      "sha256": "1e62a50df449d972774ddbf36442b017043ea81d7d7ec607ec9670af5b63a41c"
-    },
-    {
-      "path": "Source/tests/check_mcp.py",
-      "size_bytes": 6643,
-      "sha256": "97f251d2c2f87f680b24983c144fa62b38450b1bb9cdde4ed66dea479c46fade"
-    },
-    {
-      "path": "Tools/Export-Package.ps1",
-      "size_bytes": 1339,
-      "sha256": "bd58abd66b41a3b7605d1c81300d0d49dc27c01bd3b16d483067be45af0a559d"
-    },
-    {
-      "path": "Tools/Package.Common.ps1",
-      "size_bytes": 781,
-      "sha256": "6be61d9dff0f16c7b769aa88a990806335a4aa340f7d2f3d4d2ba8027cd8391b"
-    },
-    {
-      "path": "Tools/Update-Manifest.ps1",
-      "size_bytes": 950,
-      "sha256": "ac550c4f1da39a5ae95f5c478a958d72cf5aedb30316747e77e6f6ad7f47860b"
-    },
-    {
-      "path": "validation.json",
-      "size_bytes": 5207,
-      "sha256": "b4000b8d946f99527117a0dd6bc8d472252ab6f7ccdb07ab6aba25fd9731f2fc"
-    },
-    {
-      "path": "Verify-Package.ps1",
-      "size_bytes": 1559,
-      "sha256": "c7b0f5dbcf7ce6a478712e1951b6c74ade80596402b39a86654c5c8a9ae90218"
-    }
-  ]
+    "package":  "codex-solidworks-bridge",
+    "release":  "0.4.0",
+    "generated_utc":  "2026-11-12T09:30:44.3353740Z",
+    "checksum_purpose":  "Accidental-change detection; checksums alone do not authenticate the publisher.",
+    "files":  [
+                  {
+                      "path":  ".gitattributes",
+                      "size_bytes":  29,
+                      "sha256":  "730a35ae3d558080083c3103d9ac8100c3f6561678092abe341701dfa331eb1d"
+                  },
+                  {
+                      "path":  ".gitignore",
+                      "size_bytes":  93,
+                      "sha256":  "d4d19e9902bcb15ded864b7e611c9fc37b18a4e55c776ed9446a6d8f3e00c5b0"
+                  },
+                  {
+                      "path":  "AGENTS.md",
+                      "size_bytes":  3298,
+                      "sha256":  "06f9d181b5f8de0c48b7fa448a42d6d15eccfd33e5d750f5bc5710d3d672053c"
+                  },
+                  {
+                      "path":  "Bridge/BridgeClient.ps1",
+                      "size_bytes":  3670,
+                      "sha256":  "7ed31cd983718acc0039b80dfef7fe0069565381dd81bb0ae356572bdf7fa77a"
+                  },
+                  {
+                      "path":  "Bridge/schemas/bridge.schema.json",
+                      "size_bytes":  47415,
+                      "sha256":  "40e06b74afd1c4ff5824adb8df6df69be167f32a66bc66e7faee71d9371d1949"
+                  },
+                  {
+                      "path":  "Bridge/SolidWorks.Interop.sldworks.dll",
+                      "size_bytes":  2821504,
+                      "sha256":  "0c1f5f41d7da7c9cdf12e0c9c1c244c6551b300393374fe5fe4d53122f16e7af"
+                  },
+                  {
+                      "path":  "Bridge/SolidWorks.Interop.swconst.dll",
+                      "size_bytes":  476544,
+                      "sha256":  "99932157ec2d78f82dc951c90abc0fc288c0cec503171647b59588a387c54d91"
+                  },
+                  {
+                      "path":  "Bridge/SwBridge.exe",
+                      "size_bytes":  127488,
+                      "sha256":  "aee9d28df5200b511e673209c3bfc1bb9165647d2e1c2d3d6e8b1f426fbd6e9d"
+                  },
+                  {
+                      "path":  "Bridge/SwBridge.exe.config",
+                      "size_bytes":  212,
+                      "sha256":  "5d4cd327e430b0139d55bb5204d25e3944214cbeaa75a3790bb6771ed04dc26d"
+                  },
+                  {
+                      "path":  "Bridge/Test-Connection.ps1",
+                      "size_bytes":  1758,
+                      "sha256":  "82f0e0b0ce6ec73126a8029be7c9bbe049ba846c9026e075f1fd9987aecca2f9"
+                  },
+                  {
+                      "path":  "Discovery/sw-api-probe.exe",
+                      "size_bytes":  20480,
+                      "sha256":  "90b12494caa67a41d7f155e65ea4900885d0bcd2bb44f5b35832ad22f1405d79"
+                  },
+                  {
+                      "path":  "docs/agent-usage.md",
+                      "size_bytes":  2252,
+                      "sha256":  "54e91193fa40987c20842ce2c477efd7e27f14bdb99b5c389c72a9e254e99ec1"
+                  },
+                  {
+                      "path":  "docs/api-automation.md",
+                      "size_bytes":  8802,
+                      "sha256":  "01d784b44b14cbd160310bf2caab1c9a26b3e0068bc92e4ba8fa2afb90df36d2"
+                  },
+                  {
+                      "path":  "docs/interface.md",
+                      "size_bytes":  8183,
+                      "sha256":  "64b360972cd280563144c962be09b12202690d44def58328a3ec3e07f6ad0492"
+                  },
+                  {
+                      "path":  "Install-CodexBridge.cmd",
+                      "size_bytes":  191,
+                      "sha256":  "44b951fcac353e6b49f3a923c73fe2e7b48ccc3bb5a1e8f0c3aa742614d14499"
+                  },
+                  {
+                      "path":  "Install-CodexBridge.ps1",
+                      "size_bytes":  3425,
+                      "sha256":  "118d31455661f17c68a3096f76d2c7f844338afa6c88d3de76c1a7062a8060df"
+                  },
+                  {
+                      "path":  "LICENSE",
+                      "size_bytes":  1255,
+                      "sha256":  "032de05ff5642eda722026fd70e39179373be1efc0f637eb7eaf3fad1a63f67e"
+                  },
+                  {
+                      "path":  "New-CodexConfig.ps1",
+                      "size_bytes":  1869,
+                      "sha256":  "9d803989b0f1391f49c340bcec5a09e5c61ebb84257ce48f6724c34373157817"
+                  },
+                  {
+                      "path":  "package.json",
+                      "size_bytes":  2553,
+                      "sha256":  "13ede29548925bd9fb88825aeabe3fef20e937568f2fc57bb7d7cf730635f083"
+                  },
+                  {
+                      "path":  "README.md",
+                      "size_bytes":  5090,
+                      "sha256":  "564a7c295431cdf84387d70a57e89a50b83404f99c0a2feae84a6970de502033"
+                  },
+                  {
+                      "path":  "skills/solidworks-local-bridge/agents/openai.yaml",
+                      "size_bytes":  309,
+                      "sha256":  "d8d1ec4240d93e0ba120511e73ef780372a16e318c9b3c0004ab24e8d61418cf"
+                  },
+                  {
+                      "path":  "skills/solidworks-local-bridge/SKILL.md",
+                      "size_bytes":  715,
+                      "sha256":  "29d785e32d7ae80af8d3ba920fe50d79d31a07b95f79d8e7d717dec76598afa5"
+                  },
+                  {
+                      "path":  "Source/bridge/build.ps1",
+                      "size_bytes":  1894,
+                      "sha256":  "871da3b64b947cdd0fe303ba1a8b06806fcc3e8921d5c7e8ce8f6488da37a10b"
+                  },
+                  {
+                      "path":  "Source/bridge/schema/bridge.schema.json",
+                      "size_bytes":  47415,
+                      "sha256":  "40e06b74afd1c4ff5824adb8df6df69be167f32a66bc66e7faee71d9371d1949"
+                  },
+                  {
+                      "path":  "Source/bridge/src/ApiAutomation.cs",
+                      "size_bytes":  23413,
+                      "sha256":  "4d15b6193d1b76fc6220b1663a61afc93f83b2609ba3bf438a003c764c7925b6"
+                  },
+                  {
+                      "path":  "Source/bridge/src/ApiCatalog.cs",
+                      "size_bytes":  11702,
+                      "sha256":  "e20de931e1fd683fdaad16d2352393aded3c58c82d3a017b2232328c9b5d27dc"
+                  },
+                  {
+                      "path":  "Source/bridge/src/AssemblyAdjustment.cs",
+                      "size_bytes":  17972,
+                      "sha256":  "fefbd467e9400f4810eacf42119361d88fab13753a4b793ba2424dbec1bcc75d"
+                  },
+                  {
+                      "path":  "Source/bridge/src/AssemblyDemo.cs",
+                      "size_bytes":  13995,
+                      "sha256":  "d23939b4e297a9dbbe27efd9998696203ee595c9c9de56bf9d12d8d8732c277b"
+                  },
+                  {
+                      "path":  "Source/bridge/src/AssemblyInfo.cs",
+                      "size_bytes":  299,
+                      "sha256":  "4508f27044349b42d2b236c74940068463a4eb84a80860ec9ac1aad2038e6311"
+                  },
+                  {
+                      "path":  "Source/bridge/src/AssemblyInspection.cs",
+                      "size_bytes":  1936,
+                      "sha256":  "0bb9196e078fcd3a06ef9321af83a1c5e8644d8d96b316beee2b2ddd55ebc0b4"
+                  },
+                  {
+                      "path":  "Source/bridge/src/CadAdapter.cs",
+                      "size_bytes":  32306,
+                      "sha256":  "4ac1a33133f44e0c3b9757a3bafb613a122dcf3c94249e9c2d6910083d3395e1"
+                  },
+                  {
+                      "path":  "Source/bridge/src/Core.cs",
+                      "size_bytes":  13351,
+                      "sha256":  "10f85d9d399004f7302fab66d6a57f3e658ea38ed7418b20b188e3ba80381c06"
+                  },
+                  {
+                      "path":  "Source/bridge/src/Jobs.cs",
+                      "size_bytes":  14151,
+                      "sha256":  "2535fb764732eba670840b1b969bc4a5332df5f60a4e93086e5daae5c73f8203"
+                  },
+                  {
+                      "path":  "Source/bridge/src/Program.cs",
+                      "size_bytes":  11193,
+                      "sha256":  "3427d1227da96ec70ef4134b23734ffa06a7fe868d17b863b924c1b772ad1fc0"
+                  },
+                  {
+                      "path":  "Source/bridge/src/WindowSnapshot.cs",
+                      "size_bytes":  3952,
+                      "sha256":  "01901f68a14daa82e1dfb76178f0bed1c964f810aa78e853aadc8de3a3ddc8d5"
+                  },
+                  {
+                      "path":  "Source/bridge/SwBridge.exe.config",
+                      "size_bytes":  212,
+                      "sha256":  "5d4cd327e430b0139d55bb5204d25e3944214cbeaa75a3790bb6771ed04dc26d"
+                  },
+                  {
+                      "path":  "Source/Build-All.ps1",
+                      "size_bytes":  642,
+                      "sha256":  "c352753f01c2ab1d662f20cbe4762752c1ed01521cb47fc1ea9b7a6023dd9c41"
+                  },
+                  {
+                      "path":  "Source/discovery/build.ps1",
+                      "size_bytes":  603,
+                      "sha256":  "37af0c835c323ddce4df9367b06e45785e1f8ed3e470999f2aa243520303749c"
+                  },
+                  {
+                      "path":  "Source/discovery/SwApiProbe.cs",
+                      "size_bytes":  17522,
+                      "sha256":  "a50134cd6fda995f710110962e0a20f8ffaa410880558e4bddc486518629cd53"
+                  },
+                  {
+                      "path":  "Source/provenance.json",
+                      "size_bytes":  1736,
+                      "sha256":  "3f99f6fd75934bfbbf50841c5952bbc9f60b2d7ab722835cdc74987f4b702919"
+                  },
+                  {
+                      "path":  "Source/README.md",
+                      "size_bytes":  3790,
+                      "sha256":  "1f2307c6fda334db872481d0f7c088bb26ff0bf8e1d8663e84c027bcb3ed6a9c"
+                  },
+                  {
+                      "path":  "Source/tests/bridge_rpc.py",
+                      "size_bytes":  5507,
+                      "sha256":  "4a33864b27e21ce944baa0eed9be0706bc1e8a76bf3b7b045a874aa9c9351776"
+                  },
+                  {
+                      "path":  "Source/tests/check_api.py",
+                      "size_bytes":  8636,
+                      "sha256":  "b65e757a1b1a0a44541fb40c95e1e92f4df24de1709601658ebab0981d97bbcb"
+                  },
+                  {
+                      "path":  "Source/tests/check_handoff.py",
+                      "size_bytes":  5328,
+                      "sha256":  "1e62a50df449d972774ddbf36442b017043ea81d7d7ec607ec9670af5b63a41c"
+                  },
+                  {
+                      "path":  "Source/tests/check_mcp.py",
+                      "size_bytes":  6643,
+                      "sha256":  "97f251d2c2f87f680b24983c144fa62b38450b1bb9cdde4ed66dea479c46fade"
+                  },
+                  {
+                      "path":  "Source/tests/check_setup.py",
+                      "size_bytes":  4768,
+                      "sha256":  "fed1b5a8ac5e8b462de0cf9ae477fc44173657d1b17fbb7d5633ac7a6b235e8a"
+                  },
+                  {
+                      "path":  "THIRD_PARTY_NOTICES.md",
+                      "size_bytes":  847,
+                      "sha256":  "b2eedfb6a7b524325140b709d818efd559dcb59db91d91adf829e69642f9ece5"
+                  },
+                  {
+                      "path":  "Tools/Export-Package.ps1",
+                      "size_bytes":  1339,
+                      "sha256":  "bd58abd66b41a3b7605d1c81300d0d49dc27c01bd3b16d483067be45af0a559d"
+                  },
+                  {
+                      "path":  "Tools/Package.Common.ps1",
+                      "size_bytes":  1168,
+                      "sha256":  "7ed9ce344d89fc5be8ebb73724fda39a3ebe47424bc6526aac3aff64364e013f"
+                  },
+                  {
+                      "path":  "Tools/Update-Manifest.ps1",
+                      "size_bytes":  938,
+                      "sha256":  "241b53e5538ed73fb23dd942f9d5fb1f8c5dc91301145d51a9760cf5b5c619f2"
+                  },
+                  {
+                      "path":  "validation.json",
+                      "size_bytes":  12263,
+                      "sha256":  "92b8ba99ba8624cf8c6019926fbb53a47711e4d9b7a4b209c07d397a8336eec3"
+                  },
+                  {
+                      "path":  "Verify-Package.ps1",
+                      "size_bytes":  1528,
+                      "sha256":  "e77aa35774d0cb5bbd830e461c2a2ae57e576e11cfad5cd9e15442cb07750788"
+                  }
+              ]
 }

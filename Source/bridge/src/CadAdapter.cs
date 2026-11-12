@@ -180,27 +180,32 @@ namespace IsolatedSwBridge
         }
         private DocEntry Find(string id)
         {
-            RefreshDocuments(); DocEntry d;
+            RefreshDocuments(); return FindKnown(id);
+        }
+        private DocEntry FindKnown(string id)
+        {
+            DocEntry d;
             if (!docs.TryGetValue(id, out d)) throw new Fault("DOC_NOT_FOUND", "Document is closed or its identifier is stale.");
             return d;
         }
         public void Preconditions(Dictionary<string, object> args)
         {
             RequireSession(J.Str(args, "session_id"));
+            RefreshDocuments();
             var seen = new HashSet<string>();
             foreach (var x in J.Items(J.Get(args, "expected_documents")))
             {
                 var e = J.Map(x); J.Keys(e, "document_id", "revision");
                 string id = J.Str(e, "document_id");
                 if (!seen.Add(id)) throw new Fault("VALIDATION_FAILED", "Duplicate document precondition.");
-                var doc = Find(id);
+                var doc = FindKnown(id);
                 if (Revision(doc) != J.Str(e, "revision")) throw new Fault("DOC_REVISION_MISMATCH", "Document changed after inspection: " + id);
             }
             var action = J.Map(J.Get(args, "action"));
             if (J.Str(action, "type") == "api_batch") { ApiPreconditions(args); return; }
             string documentId = J.Str(action, "document_id");
             if (!seen.Contains(documentId)) throw new Fault("VALIDATION_FAILED", "Target document must be included in expected_documents.");
-            var target = Find(documentId);
+            var target = FindKnown(documentId);
             if (J.Str(action, "type") == "activate_document") return;
             if (J.Str(action, "type") == "assemble_demo") { DemoPreconditions(target); return; }
             if (J.Str(action, "type") == "insert_component_with_mates") { PinPreconditions(target, action); return; }

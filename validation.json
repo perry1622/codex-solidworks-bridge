@@ -1,20 +1,37 @@
 {
   "package_version": "0.4.0",
-  "agent_handoff_revision": 2,
+  "agent_handoff_revision": 3,
   "bridge_binary_version": "0.4.0",
-  "discovery_binary_version": "0.1.1",
-  "packaging_only_release": false,
-  "tested_at": "2026-11-12T12:29:09.879885+08:00",
-  "bridge_sha256": "dcbf9f519d33bbb00ebf004f04023e0786b24902de3bd66c73e3bb61233f4c3e",
-  "discovery_sha256": "90b12494caa67a41d7f155e65ea4900885d0bcd2bb44f5b35832ad22f1405d79",
+  "tested_at": "2026-11-12T17:26:38.069693+08:00",
+  "bridge_sha256": "aee9d28df5200b511e673209c3bfc1bb9165647d2e1c2d3d6e8b1f426fbd6e9d",
   "actual_solidworks_instance": {
-    "instance_id": "solidworks-pid-41192",
-    "pid": 41192,
+    "instance_id": "solidworks-pid-31008",
+    "pid": 31008,
     "solidworks_revision": "33.1.2"
   },
+  "catalog": {
+    "kind": "api_catalog",
+    "operation": "summary",
+    "assemblies": [
+      {
+        "name": "SolidWorks.Interop.sldworks",
+        "version": "34.0.0.5070"
+      },
+      {
+        "name": "SolidWorks.Interop.swconst",
+        "version": "34.0.0.5070"
+      }
+    ],
+    "runtime_connection_checked": false,
+    "units": "Raw official API units; usually metres/radians. Check the method's documentation.",
+    "coverage": "Loaded managed COM interfaces only. Metadata and transport support do not certify runtime availability, licensing, context or method behavior.",
+    "interface_count": 1030,
+    "enum_count": 978,
+    "method_count": 16686,
+    "transport_candidate_count": 15293
+  },
   "api_tests": {
-    "scope": "metadata_protocol_read_only_rejection",
-    "passed": 12,
+    "passed": 29,
     "failed": 0,
     "cases": {
       "tool_discovery": "passed",
@@ -28,11 +45,27 @@
       "unknown_interface": "passed",
       "missing_search_query": "passed",
       "unknown_catalog_field": "passed",
-      "read_only_api_call_rejected": "passed"
+      "read_only_api_call_rejected": "passed",
+      "actual_solidworks_connection": "passed",
+      "api_batch_validate": "passed",
+      "actual_com_objects_and_typed_array": "passed",
+      "actual_property_set_and_read": "passed",
+      "object_reference_across_batches": "passed",
+      "actual_api_array_pagination": "passed",
+      "idempotent_request_replay": "passed",
+      "changed_request_id_conflict": "passed",
+      "actual_ref_out_values": "passed",
+      "invalid_enum_rejected_before_call": "passed",
+      "arbitrary_managed_type_rejected": "passed",
+      "fractional_int_rejected": "passed",
+      "forward_reference_rejected": "passed",
+      "raw_buffer_invocation_rejected": "passed",
+      "transport_object_release": "passed",
+      "released_object_rejected": "passed",
+      "no_automatic_success_claim": "passed"
     }
   },
   "agent_handoff_tests": {
-    "scope": "existing assemblies opened read-only; unlocked and original fully constrained cases",
     "passed": 19,
     "failed": 0,
     "cases": {
@@ -56,85 +89,277 @@
       "input_angle_suppression_visible": "passed",
       "source_assemblies_unchanged": "passed"
     },
-    "cad_files_saved": false
+    "scope": "Read-only original and movable 14-component assemblies"
   },
-  "contract_checks": {
-    "status": "passed",
-    "responses_checked": 53
+  "setup_tests": {
+    "passed": 7,
+    "failed": 0,
+    "cases": {
+      "install_preserves_settings_and_backup": "passed",
+      "reinstall_updates_only_managed_service": "passed",
+      "unmanaged_service_conflict_preserves_file": "passed",
+      "malformed_block_preserves_file": "passed",
+      "whatif_leaves_profile_untouched": "passed",
+      "git_checkout_metadata_is_not_packaged": "passed",
+      "mcp_handoff_locates_actual_toolkit": "passed"
+    },
+    "scope": "Isolated Codex profiles; Windows PowerShell 5.1 and Git metadata"
   },
-  "skill_validator": "passed",
-  "agent_entry_bytes": {
-    "before": 9482,
-    "after": 6154
-  },
-  "catalog": {
-    "assemblies": [
+  "planetary_case": {
+    "components": 41,
+    "native_mates": 40,
+    "sun_teeth": 24,
+    "planet_teeth": 24,
+    "planet_count": 3,
+    "ring_teeth": 72,
+    "module_mm": 2,
+    "width_mm": 15,
+    "native_model_angle_samples": 81,
+    "sun_sweep_deg": [
+      0,
+      20
+    ],
+    "sun_step_deg": 0.25,
+    "tooth_period_carrier_deg": 5,
+    "gear_pairs_checked_each_position": 6,
+    "gear_pair_interference_faces": 0,
+    "full_assembly_sweep_samples": 5,
+    "dual_input_cases": [
       {
-        "name": "SolidWorks.Interop.sldworks",
-        "version": "34.0.0.5070"
+        "input_sun_deg": 0.0,
+        "input_ring_deg": 10.0,
+        "carrier_deg": 7.500000000000057,
+        "planet_deg": 15.000000000000028,
+        "max_angle_error_deg": 3.836930773104541e-13,
+        "gear_interference": {
+          "Sun-Planet1": 0,
+          "Ring-Planet1": 0,
+          "Sun-Planet2": 0,
+          "Ring-Planet2": 0,
+          "Sun-Planet3": 0,
+          "Ring-Planet3": 0
+        },
+        "full_interference": {
+          "faces": 0,
+          "components": []
+        }
       },
       {
-        "name": "SolidWorks.Interop.swconst",
-        "version": "34.0.0.5070"
+        "input_sun_deg": 20.0,
+        "input_ring_deg": 10.0,
+        "carrier_deg": 12.5,
+        "planet_deg": 4.9999999999998295,
+        "max_angle_error_deg": 3.211653165635653e-12,
+        "gear_interference": {
+          "Sun-Planet1": 0,
+          "Ring-Planet1": 0,
+          "Sun-Planet2": 0,
+          "Ring-Planet2": 0,
+          "Sun-Planet3": 0,
+          "Ring-Planet3": 0
+        },
+        "full_interference": {
+          "faces": 0,
+          "components": []
+        }
+      },
+      {
+        "input_sun_deg": -12.0,
+        "input_ring_deg": 4.0,
+        "carrier_deg": 0.0,
+        "planet_deg": 12.000000000000028,
+        "max_angle_error_deg": 9.237055564881302e-14,
+        "gear_interference": {
+          "Sun-Planet1": 0,
+          "Ring-Planet1": 0,
+          "Sun-Planet2": 0,
+          "Ring-Planet2": 0,
+          "Sun-Planet3": 0,
+          "Ring-Planet3": 0
+        },
+        "full_interference": {
+          "faces": 0,
+          "components": []
+        }
       }
     ],
-    "interface_count": 1030,
-    "enum_count": 978,
-    "method_count": 16686,
-    "transport_candidate_count": 15293
+    "max_angle_error_deg": 1.5546675058430992e-11,
+    "native_animation": {
+      "verified_studies": {
+        "01_Reduction_4to1": {
+          "duration_s": 20,
+          "motors": [
+            {
+              "component": "Ring72-1",
+              "rpm": 0
+            },
+            {
+              "component": "IndependentSun24-1",
+              "rpm": 12
+            }
+          ]
+        },
+        "02_Differential_2Inputs": {
+          "duration_s": 20,
+          "motors": [
+            {
+              "component": "IndependentSun24-1",
+              "rpm": 8
+            },
+            {
+              "component": "Ring72-1",
+              "rpm": 1.3333333333333333
+            }
+          ]
+        }
+      },
+      "frozen_pose_samples_per_study": 3,
+      "relationships_verified": "Sun + 3 Ring = 4 Carrier, planet rotation and orbit; reduction ring stationary",
+      "full_assembly_interference_at_frozen_samples": [
+        {
+          "faces": 0,
+          "components": []
+        },
+        {
+          "faces": 0,
+          "components": []
+        }
+      ],
+      "timebar_velocity_calibration": "not certified"
+    },
+    "saved_reopened": {
+      "status": "passed",
+      "component_count": 41,
+      "all_references_owned": true,
+      "max_saved_pose_difference": 0,
+      "mobility_after_reopen": {
+        "Sun": "swUnderConstrained",
+        "Ring": "swUnderConstrained",
+        "Carrier": "swUnderConstrained",
+        "Planet1": "swUnderConstrained",
+        "Planet2": "swUnderConstrained",
+        "Planet3": "swUnderConstrained"
+      },
+      "full_interference_after_reopen": {
+        "faces": 0,
+        "components": []
+      },
+      "native_studies": {
+        "01_Reduction_4to1": {
+          "duration_s": 20,
+          "motors": [
+            {
+              "component": "Ring72-1",
+              "rpm": 0
+            },
+            {
+              "component": "IndependentSun24-1",
+              "rpm": 12
+            }
+          ]
+        },
+        "02_Differential_2Inputs": {
+          "duration_s": 20,
+          "motors": [
+            {
+              "component": "IndependentSun24-1",
+              "rpm": 8
+            },
+            {
+              "component": "Ring72-1",
+              "rpm": 1.3333333333333333
+            }
+          ]
+        }
+      },
+      "library_sources_unchanged": true
+    },
+    "video": {
+      "status": "passed",
+      "path": "Planetary_Differential_Demo.mp4",
+      "codec": "H.264",
+      "pixel_format": "yuv420p",
+      "fps": 24,
+      "fast_start": true,
+      "audio": false,
+      "sha256": "1bf5258694c0fe54ab0b35098970f45b90b30162c14b1e334c2e8cbeb49ec49f",
+      "size_bytes": 12895798,
+      "full_decode": "FFmpeg 7.1.2 -xerror; all 1055 frames decoded, exit 0",
+      "visual_review": "Reduction and exposed dual-input frames inspected",
+      "width": 1440,
+      "height": 810,
+      "duration_s": 43.958333333333336,
+      "frames": 1055
+    },
+    "scope": "Kinematic geometry and selected interference samples; not continuous collision or dynamics certification"
   },
   "historical_validation": {
-    "bridge_sha256": "48259a869668b170d74ea856f3610f2baada24c0dc480da53d4237bcaaa5087f",
-    "tested_at": "2026-11-12T02:46:41.326734+08:00",
-    "api_tests": {
-      "passed": 29,
-      "failed": 0,
-      "cases": {
-        "tool_discovery": "passed",
-        "official_metadata_catalog": "passed",
-        "official_ref_out_signature": "passed",
-        "official_enum_values": "passed",
-        "method_search": "passed",
-        "catalog_pagination": "passed",
-        "raw_buffer_limit_reported": "passed",
-        "negative_offset": "passed",
-        "unknown_interface": "passed",
-        "missing_search_query": "passed",
-        "unknown_catalog_field": "passed",
-        "read_only_api_call_rejected": "passed",
-        "actual_solidworks_connection": "passed",
-        "api_batch_validate": "passed",
-        "actual_com_objects_and_typed_array": "passed",
-        "actual_property_set_and_read": "passed",
-        "object_reference_across_batches": "passed",
-        "actual_api_array_pagination": "passed",
-        "idempotent_request_replay": "passed",
-        "changed_request_id_conflict": "passed",
-        "actual_ref_out_values": "passed",
-        "invalid_enum_rejected_before_call": "passed",
-        "arbitrary_managed_type_rejected": "passed",
-        "fractional_int_rejected": "passed",
-        "forward_reference_rejected": "passed",
-        "raw_buffer_invocation_rejected": "passed",
-        "transport_object_release": "passed",
-        "released_object_rejected": "passed",
-        "no_automatic_success_claim": "passed"
-      }
+    "applies_to_current_binary": false,
+    "previous_agent_handoff_revision": 2,
+    "previous_bridge_sha256": "dcbf9f519d33bbb00ebf004f04023e0786b24902de3bd66c73e3bb61233f4c3e",
+    "previous_contract_checks": {
+      "status": "passed",
+      "responses_checked": 53
     },
-    "applies_to_current_binary": false
+    "earlier": {
+      "bridge_sha256": "48259a869668b170d74ea856f3610f2baada24c0dc480da53d4237bcaaa5087f",
+      "tested_at": "2026-11-12T02:46:41.326734+08:00",
+      "api_tests": {
+        "passed": 29,
+        "failed": 0,
+        "cases": {
+          "tool_discovery": "passed",
+          "official_metadata_catalog": "passed",
+          "official_ref_out_signature": "passed",
+          "official_enum_values": "passed",
+          "method_search": "passed",
+          "catalog_pagination": "passed",
+          "raw_buffer_limit_reported": "passed",
+          "negative_offset": "passed",
+          "unknown_interface": "passed",
+          "missing_search_query": "passed",
+          "unknown_catalog_field": "passed",
+          "read_only_api_call_rejected": "passed",
+          "actual_solidworks_connection": "passed",
+          "api_batch_validate": "passed",
+          "actual_com_objects_and_typed_array": "passed",
+          "actual_property_set_and_read": "passed",
+          "object_reference_across_batches": "passed",
+          "actual_api_array_pagination": "passed",
+          "idempotent_request_replay": "passed",
+          "changed_request_id_conflict": "passed",
+          "actual_ref_out_values": "passed",
+          "invalid_enum_rejected_before_call": "passed",
+          "arbitrary_managed_type_rejected": "passed",
+          "fractional_int_rejected": "passed",
+          "forward_reference_rejected": "passed",
+          "raw_buffer_invocation_rejected": "passed",
+          "transport_object_release": "passed",
+          "released_object_rejected": "passed",
+          "no_automatic_success_claim": "passed"
+        }
+      },
+      "applies_to_current_binary": false
+    }
   },
-  "geometry_created_in_this_test": false,
   "not_validated": [
     "every_official_method",
-    "all_products_and_addin_licenses",
+    "all_addin_products_and_licenses",
     "other_runtime_versions",
     "cross_computer",
     "native_pointers_and_callbacks",
     "in_process_addin_execution",
-    "full_generic_invocation_suite_on_current_binary",
-    "geometry_writes_and_motion_playback"
+    "new_planetary_mouse_drag",
+    "every_video_frame_for_interference",
+    "native_SaveToAVI_MP4_file_output"
   ],
-  "test_limitation": "The full generic invocation rerun could not complete after the isolated test instance lost COM attachment. Current results cover 12 protocol/metadata checks and 19 actual CAD readback checks; historical results are kept separate.",
+  "video_export_note": "SaveToAVI returned true without producing an MP4 here; the delivered video records actual native playback through FFmpeg.",
   "global_codex_configuration_modified": false,
-  "original_0_3_1_package_modified": false
+  "windows_security_settings_changed": false,
+  "original_0_3_1_package_modified": false,
+  "build_test": {
+    "status": "passed",
+    "shell": "Windows PowerShell 5.1",
+    "scope": "Source/Build-All.ps1 with bundled Interop defaults; bridge and discovery compile"
+  }
 }

@@ -102,7 +102,7 @@ namespace IsolatedSwBridge
                     initialized = true;
                     Reply(id, J.Obj("protocolVersion", protocol, "capabilities", J.Obj("tools", J.Obj("listChanged", false)),
                         "serverInfo", J.Obj("name", "solidworks-local-01a1cb2e", "version", "0.4.0"),
-                        "instructions", "Read the package AGENTS.md. Start with sw_status and a focused sw_inspect; use sw_api_catalog before api_batch. API return, constraint state, collision checks, native playback and saved-file verification are separate evidence. Never infer CAD task success from a completed API call."));
+                        "instructions", "Read the toolkit entry at " + Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "AGENTS.md")) + ". Start with sw_status and a focused sw_inspect; use sw_api_catalog before api_batch. Release unused object references between task stages. API return, constraint state, collision checks, native playback and saved-file verification are separate evidence. Never infer CAD task success from a completed API call."));
                     return;
                 }
                 if (method == "ping") { Reply(id, J.Obj()); return; }

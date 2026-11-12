@@ -9,12 +9,15 @@
     "Retained dedicated CAD actions; new build has independent test results.",
     "Included source, schema, tests and API usage instructions.",
     "Consolidated agent entry rules and added lightweight constraint/mate evidence and COM attachment diagnostics.",
-    "Read-only document summaries now include the actual SolidWorks open mode."
+    "Read-only document summaries now include the actual SolidWorks open mode.",
+    "Added managed Codex setup and absolute agent-entry paths, with Windows PowerShell and Git checkout verification.",
+    "Avoided repeated document enumeration within one precondition/revision pass; documented explicit reference cleanup and precise sketch creation.",
+    "Initialize script-relative build and manifest defaults inside the script body for Windows PowerShell 5.1."
   ],
   "runtime_files": [
     {
       "path": "Bridge/SwBridge.exe",
-      "sha256": "dcbf9f519d33bbb00ebf004f04023e0786b24902de3bd66c73e3bb61233f4c3e"
+      "sha256": "aee9d28df5200b511e673209c3bfc1bb9165647d2e1c2d3d6e8b1f426fbd6e9d"
     },
     {
       "path": "Bridge/SolidWorks.Interop.sldworks.dll",
@@ -29,5 +32,5 @@
       "sha256": "90b12494caa67a41d7f155e65ea4900885d0bcd2bb44f5b35832ad22f1405d79"
     }
   ],
-  "agent_handoff_revision": 2
+  "agent_handoff_revision": 3
 }

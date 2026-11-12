@@ -10,6 +10,12 @@ python .\Source\tests\check_api.py --package 实际Bridge目录 --pid 目标进�
 
 `tests/check_handoff.py` 接受 `--package`、`--pid`、`--assembly`（可动装配）、`--locked-assembly`（被角度锁定的回归装配）和 `--report`，以只读方式打开现有 CAD 文件，验证约束、配合抑制和实际只读状态。它不保存模型、不退出 SolidWorks；测试应使用独立实例。
 
+`tests/check_setup.py` 使用 Python 3.11+，在临时目录里通过 Windows PowerShell 测试安装、重复安装、手动配置冲突、损坏区块、预览安装和 Git 检出校验，不改动当前用户配置：
+
+```powershell
+python .\Source\tests\check_setup.py --package '整包根目录' --report 'C:\开发目录\setup.json'
+```
+
 | 位置 | 职责 |
 |---|---|
 | `bridge/src/Program.cs` | MCP 握手、六工具及 JSON-RPC 路由 |
@@ -22,7 +28,7 @@ python .\Source\tests\check_api.py --package 实际Bridge目录 --pid 目标进�
 | `bridge/schema/bridge.schema.json` | 唯一编辑的协议源；构建时复制为运行时 `Bridge/schemas/bridge.schema.json` |
 | `bridge/SwBridge.exe.config` | .NET 运行时配置源；随构建复制 |
 | `discovery/SwApiProbe.cs` | 离线读取本机安装、官方 Interop 元数据、帮助及 Toolbox 位置 |
-| `tests/check_mcp.py` | 可选开发自检，默认只读；Python 仅用于此项开发测试 |
+| `tests/check_mcp.py` | 可选的只读连接自检；Python 仅是开发测试依赖 |
 | `provenance.json` | 来源和当前发布二进制 SHA-256 |
 
 在包根目录编译两个原生程序到全新目录，不覆盖正在使用的包：

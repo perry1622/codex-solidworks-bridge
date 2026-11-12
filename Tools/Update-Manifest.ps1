@@ -1,11 +1,12 @@
 [CmdletBinding()]
-param([string]$PackageRoot = (Split-Path -Parent $PSScriptRoot))
+param([string]$PackageRoot)
 $ErrorActionPreference = 'Stop'
+if (-not $PackageRoot) { $PackageRoot = Split-Path -Parent $PSScriptRoot }
 . (Join-Path $PSScriptRoot 'Package.Common.ps1')
 $root = [IO.Path]::GetFullPath($PackageRoot).TrimEnd('\')
 $packageInfo = Get-Content -LiteralPath (Join-Path $root 'package.json') -Raw | ConvertFrom-Json
 $entries = @(foreach ($file in @(Get-ToolkitFiles $root)) {
-    [ordered]@{path=$file.FullName.Substring($root.Length + 1).Replace('\', '/'); size_bytes=$file.Length; sha256=(Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()}
+    [ordered]@{path=$file.FullName.Substring($root.Length + 1).Replace('\', '/'); size_bytes=$file.Length; sha256=(Get-ToolkitSha256 $file.FullName)}
 })
 $manifest = [ordered]@{
     package=$packageInfo.name; release=$packageInfo.version

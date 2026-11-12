@@ -62,7 +62,7 @@ operation 默认 call；get/set 使用属性名，不加 get_/set_。索引属�
 
 对象引用仅在当前桥接 session 有效，并记录打开文档 revision。文档变化后重新取得对象，同批次用 $ref 跨建模步骤传递。重启不恢复对象引用。最多保留 4096 个引用，action 可加 release_objects:["api-…"]。
 
-sw_api_object 参数如下；operation=release 释放，operation=read 加 offset/limit 分页读取大数组。超过 2048 项的返回数组用 object_id 表示；步骤可加 return_mode:"reference" 强制把较小数组也返回为引用。
+sw_api_object 参数如下；operation=release 释放，operation=read 加 offset/limit 分页读取大数组。超过 2048 项的返回数组用 object_id 表示；步骤可加 return_mode:"reference" 强制把较小数组也返回为引用。`GetFaces` 等仅供批内后续步骤选取一个元素的对象数组，优先使用此模式，避免给每个未使用的面登记引用；批内 `$ref` 的数组下标仍然可用。
 
 ```json
 {"session_id":"本次UUID","object_id":"api-…","operation":"read","offset":0,"limit":100}
@@ -70,11 +70,21 @@ sw_api_object 参数如下；operation=release 释放，operation=read 加 offse
 
 释放只删除桥接引用，不关闭用户文档，不强制 ReleaseComObject。
 
+创建尺寸等方法可能受 SolidWorks 交互选项影响而弹框。例如 `AddDiameterDimension2` 之前，先读取 `swInputDimValOnCreate`，临时设为 false，并在 finally 中恢复原值。作业超时不代表底层 COM 已取消；先检查 `sw_job` 和实际窗口，再继续提交依赖步骤。
+
+按精确坐标生成草图时，使用 `ISketchManager.AddToDB=true` 避免自动推理改变圆心或半径，并恢复原值。本机实测中，自动推理曾把相邻的 4 mm／3 mm 圆变成两个 4 mm 圆；仍需读回几何，不能只检查创建返回值。
+
 ## 运动模块与上下文
 
 `capabilities.native_motion_study=false` 表示没有专用运动算例动作；通用调用仍可通过 `--api-library` 加载本机 `SolidWorks.Interop.swmotionstudy.dll` 后访问官方运动接口。用 catalog 查询实际类型与签名，按本机安装和许可验证可用性。
 
 运动算例与模型状态分开验收。`IMotionStudy.SetTime` 设置时间条，不据此推断组件 `Transform2` 已代表该动画帧；动画结果对象是否适用于该算例类型也需验证。计算模型几何时先切回实际模型页：本机中文界面已验证 `IMotionStudyManager.ActivateMotionStudy("模型")`，其他语言按实际名称确认。
+
+单位以具体方法为准。例如 [`ISimulationMotorFeatureData.ConstantSpeedMotor`](https://help.solidworks.com/2025/english/api/sldworksapi/SolidWorks.Interop.sldworks~SolidWorks.Interop.sldworks.ISimulationMotorFeatureData~ConstantSpeedMotor.html) 的旋转速度是 RPM：72°/s 应传 12，而非弧度值。修改定义后检查 `ModifyDefinition`，重新计算，并查看实际运动。
+
+本机关闭全部文档后曾出现 `ISldWorks.Visible=false`，此时运动特征查询返回空、窗口截图为黑色。先核对实际实例、可见性及活动算例；不能仅凭空列表重建电机。只恢复任务拥有的实例。播放中连续读取不同组件可能跨越多个动画帧；需要比较同一时刻时先停止播放，再读回并核对时间未变化。
+
+本机创建第二个旋转电机时，`CreateFeature` 返回对象曾指向前一个电机，而新电机已经实际创建。创建后另批 `GetMotionFeatures`，按定义中的 `Location` 所属组件及速度确认新特征，再重命名或修改。不要依赖枚举顺序或刚返回的对象推断目标；在时间 0 设置恒速，并检查已有关键帧是否造成后续插值。
 
 只读装配检查可使用 `scopes:["summary","constraints","mates","checks"]`。`details.component_constraints` 返回固定状态、原生约束状态、抑制状态和模型变换；最多 100 个组件，超出范围会有未检查提示。`mates` 的 `error_code/is_warning/suppressed` 是当前配合读回，不等于运动或干涉验收。完整验收要求统一见 [AGENTS.md](../AGENTS.md)。
 

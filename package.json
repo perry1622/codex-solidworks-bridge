@@ -1,5 +1,5 @@
 {
-  "name": "sw-codex-toolkit-01a1cb2e",
+  "name": "codex-solidworks-bridge",
   "version": "0.4.0",
   "kind": "portable-metadata-driven-official-com-api-bridge",
   "agent_entry": "AGENTS.md",
@@ -44,7 +44,6 @@
     "in_process_solidworks_addin",
     "general_recipe_builder",
     "dedicated_motion_study_action",
-    "automatic_global_codex_setup",
     "automatic_toolbox_size_generation"
   ],
   "schema": "Bridge/schemas/bridge.schema.json",
@@ -58,6 +57,12 @@
     "binary_payload_inline": false
   },
   "user_entry": "README.md",
+  "setup": {
+    "windows_double_click": "Install-CodexBridge.cmd",
+    "powershell": "Install-CodexBridge.ps1",
+    "configuration": "managed MCP table; preserves unrelated settings and backs up existing config",
+    "changes_windows_security": false
+  },
   "agent_usage": "docs/agent-usage.md",
   "source_entry": "Source/README.md",
   "packaging_only_release": false,
@@ -69,7 +74,7 @@
     "additional_libraries": "explicit --api-library startup arguments",
     "all_methods_verified": false
   },
-  "agent_handoff_revision": 2,
+  "agent_handoff_revision": 3,
   "inspection_scopes": [
     "summary",
     "constraints",

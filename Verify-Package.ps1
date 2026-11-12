@@ -12,7 +12,7 @@ foreach ($entry in $manifest.files) {
     if (-not $path.StartsWith($root + '\', [StringComparison]::OrdinalIgnoreCase)) { $errors.Add('Invalid package path: ' + $relative); continue }
     if (-not $expected.Add($relative)) { $errors.Add('Duplicate package path: ' + $relative) }
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { $errors.Add('Missing file: ' + $relative); continue }
-    if ((Get-Item -LiteralPath $path).Length -ne $entry.size_bytes -or (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -ne $entry.sha256) { $errors.Add('File changed: ' + $relative) }
+    if ((Get-Item -LiteralPath $path).Length -ne $entry.size_bytes -or (Get-ToolkitSha256 $path) -ne $entry.sha256) { $errors.Add('File changed: ' + $relative) }
 }
 foreach ($file in @(Get-ToolkitFiles $root)) {
     $relative = $file.FullName.Substring($root.Length + 1).Replace('\', '/')

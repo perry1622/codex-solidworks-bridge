@@ -1,9 +1,10 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$Destination,
-    [string]$InteropDirectory = (Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'Bridge')
+    [string]$InteropDirectory
 )
 $ErrorActionPreference = 'Stop'
+if (-not $InteropDirectory) { $InteropDirectory = Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'Bridge' }
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 $sldworks = Join-Path $InteropDirectory 'SolidWorks.Interop.sldworks.dll'
 $swconst = Join-Path $InteropDirectory 'SolidWorks.Interop.swconst.dll'
